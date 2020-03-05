@@ -975,13 +975,13 @@ export class CanvasService {
   /**
   * It will resize object as per current canvas
   */
-  resizeObjectAsPerCanvas(obj, canvas) {
-    obj.left = (canvas.width * obj.left) / obj.canvasWidth;
-    obj.top = (canvas.height * obj.top) / obj.canvasHeight;
-    obj.scaleX = (canvas.width * obj.scaleX) / obj.canvasWidth;
-    obj.scaleY = (canvas.height * obj.scaleY) / obj.canvasHeight;
-    return obj;
-  }
+resizeObjectAsPerCanvas(obj, canvas) {
+       obj.left= (canvas.width * obj.left) / (obj.canvasWidth ? obj.canvasWidth : canvas.width);
+       obj.top= (canvas.height * obj.top) / (obj.canvasHeight ? obj.canvasHeight : canvas.height);
+       obj.scaleX= (canvas.width * obj.scaleX) / (obj.canvasWidth ? obj.canvasWidth : canvas.width);
+       obj.scaleY= (canvas.height * obj.scaleY) / (obj.canvasHeight ? obj.canvasHeight : canvas.height);
+       return obj;
+}
   /**
    * It will resize object as per current scaleFactor
    */
