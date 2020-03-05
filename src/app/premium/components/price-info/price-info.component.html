@@ -1,0 +1,22 @@
+<span class="cart-info" (click)="displayInfo()" *ngIf="isDisplayPriceInfo">
+	<svg class="icon icon-info" viewBox="0 0 20 20">
+		<use xlink:href="assets/img/sprite.svg#icon-info"></use>
+	</svg>
+</span>
+<div class="byi-info-display" [class.open]="showPriceInfo">
+	<ul class="byi-priceinfo-top">
+		<ng-container *ngFor = 'let item of priceInfoData'>
+			<li *ngIf="item.value">
+				<div class = 'byi-priceinfo__left'>{{item.label}}  {{(item.hasOwnProperty('isQty') && item.isQty == true) ? 'x '+item.qty : ''}}
+				{{(!item.hasOwnProperty('isProductQty') && item.isProductQty != true) ? 'x ' : ''}} 
+				<span tooltip="{{'Product Quantity' | translate}}">{{(item.hasOwnProperty('isProductQty') && item.isProductQty == true) ? '(' : ''}}{{item.productQty}}{{(item.hasOwnProperty('isProductQty') && item.isProductQty == true) ? ')' : ''}}</span>
+				</div>			
+				<div class = 'byi-priceinfo__right'>{{item.value}}</div>
+			</li>
+		</ng-container>
+	</ul>
+	<div class="byi-priceinfo-total">
+		<div class="byi-priceinfo__left">{{'Total Price' | translate}}</div>
+		<div class="byi-priceinfo__right">{{priceService.getPrice()}}</div>
+	</div>
+</div>

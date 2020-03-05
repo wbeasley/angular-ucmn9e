@@ -1,0 +1,41 @@
+<div class="context-menu" style="position:absolute;z-index:9999;display: block;width: 20px">
+	<ul class="context-menu-list context-menu-root" [attr.hidden]="hideContextMenu">
+		<li class="context-menu-item labels context-menu-visible" (click)="canvasService.Flip('horizontal')">
+			<label title="{{'Horizantal Flip' | translate}}">
+				<svg class="icon icon-flip-v" viewBox="0 0 30 30" title="{{'Vertical Flip' | translate}}">
+					<use xlink:href="assets/img/sprite.svg#icon-flip-v"></use>
+				</svg>
+			</label>
+		</li>
+		<li class="context-menu-item labels" (click)="canvasService.Flip('vertical')">
+			<label title="{{'Vertical Flip' | translate}}">
+				<svg class="icon icon-flip-h" viewBox="0 0 30 30" title="{{'Horizantal Flip' | translate}}">
+					<use xlink:href="assets/img/sprite.svg#icon-flip-h"></use>
+				</svg>
+			</label>
+		</li>
+		<li class="context-menu-item labels" (click)="canvasService.ObjectLayer('forward')"
+			[ngClass]="{'disabled': rightPanelService.enableForMultipleObj == true || rightPanelService.disabledLayers.indexOf('bringToFront') != -1}">
+			<label title="{{'Front' | translate}}">
+				<svg class="icon icon-layer-top" viewBox="0 0 30 30" title="{{'Front' | translate}}">
+					<use xlink:href="assets/img/sprite.svg#icon-layer-top"></use>
+				</svg>
+			</label>
+		</li>
+		<li class="context-menu-item labels" (click)="canvasService.ObjectLayer('backward')"
+		[ngClass]="{'disabled': rightPanelService.enableForMultipleObj == true || rightPanelService.disabledLayers.indexOf('sendToBack') != -1}">
+			<label title="{{'Back' | translate}}">
+				<svg class="icon icon-layer-bottom" viewBox="0 0 30 30" title="{{'Back' | translate}}">
+					<use xlink:href="assets/img/sprite.svg#icon-layer-bottom"></use>
+				</svg>
+			</label>
+		</li>
+		<li class="context-menu-item labels" (click)="canvasService.deleteObject()">
+			<label title="{{'Delete' | translate}}">
+				<svg class="icon icon-t-delete" viewBox="0 0 30 30" title="{{'Delete' | translate}}">
+					<use xlink:href="assets/img/sprite.svg#icon-t-delete"></use>
+				</svg>
+			</label>
+		</li>
+	</ul>
+</div>

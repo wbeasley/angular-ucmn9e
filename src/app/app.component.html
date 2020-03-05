@@ -1,0 +1,16 @@
+<div loader #loaderComponent></div>
+<div class="byi-wrap" (contextmenu)="rightClickEventCheck($event)">
+	<div name-number *ngIf="designService.mainService.nameNumber || designService.mainService.isGenerateSVGDesign" [loadContent]="'adminNameNumber'"></div>
+    <header [hidden]="designService.mainService.nameNumber || designService.mainService.isGenerateSVGDesign"></header>
+    <div class="generate-image-block" *ngIf="designService.mainService.isGenerateSVGDesign">
+         <button class="generate-image-btn" (click)="designService.generateSVGDesign()">Generate Image</button>
+    </div>
+    <div product-template></div>
+    <div class="byi-designboard">
+     <tabs [hidden]="designService.mainService.nameNumber || designService.mainService.isGenerateSVGDesign"></tabs>
+     <design-area></design-area>
+     <right-panel [hidden]="designService.mainService.nameNumber || designService.mainService.isGenerateSVGDesign"></right-panel>
+ </div>
+ <translate></translate>
+ <footer [hidden]="designService.mainService.nameNumber || designService.mainService.isGenerateSVGDesign"></footer>
+</div>

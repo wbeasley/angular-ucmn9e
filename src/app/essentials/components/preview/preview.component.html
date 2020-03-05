@@ -1,0 +1,57 @@
+<a href="javascript:void(0)" id='preview_btn' (click)="createPreview(template)" attr.disabled="disabled"
+	tooltip="{{'Preview' | translate}}">
+	<svg class="icon icon-view" viewBox="0 0 30 30">
+		<use xlink:href="assets/img/sprite.svg#icon-view"></use>
+	</svg>
+	<div loader #loaderComponent></div>
+</a>
+
+
+<ng-template #template>
+	<div class="modal-header">
+		<h4 class="modal-title pull-left">{{'Preview' | translate}}</h4>
+		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="product-zoom-container">
+			<div class="preview-image">
+				<img src="{{previewImages[activeImageId]}}" />
+				<button *ngIf="mainService.displayDownload" class="byi-btn byi-btn-download" (click)="downloadFunction()"
+					tooltip="{{'Download Design' | translate}}">
+					<svg class="icon icon-download" viewBox="0 0 30 30">
+						<use xlink:href="assets/img/sprite.svg#icon-download"></use>
+					</svg>
+					<span>Download</span>
+				</button>
+			</div>
+			<div class="total-sides" *ngIf="allImageIds && allImageIds.length > 1">
+				<div class="total-sides-mob">
+					<button container="body" class="byi-side-btn byi-prev-side" *ngIf="enablePrev"
+						(click)="changeNextPrevPreviewSide('prev')" tooltip="{{'Previous Side' | translate}}">
+						<span>
+							<svg class="icon icon-side-prev" viewBox="0 0 50 50">
+								<use xlink:href="assets/img/sprite.svg#icon-side-prev"></use>
+							</svg>
+						</span>
+					</button>
+					<ul>
+						<li *ngFor="let image_id of allImageIds;let i=index;"
+							[ngClass]="{active: activeImageId == image_id}" (click)="changePreviewSide(image_id,true)">
+							<span></span>
+						</li>
+					</ul>
+					<button container="body" class="byi-side-btn byi-next-side" *ngIf="enableNext"
+						(click)="changeNextPrevPreviewSide('next')" tooltip="{{'Next Side' | translate}}">
+						<span>
+							<svg class="icon icon-side-next" viewBox="0 0 50 50">
+								<use xlink:href="assets/img/sprite.svg#icon-side-next"></use>
+							</svg>
+						</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>

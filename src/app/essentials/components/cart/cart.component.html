@@ -1,0 +1,73 @@
+<button *ngIf="!mainService.isResponsive && mainService.isAdmin == false" type="button" class="byi-atc-btn"
+  (click)="openModal(template)">{{'Add to
+  Cart' | translate}}</button>
+<button *ngIf="mainService.isResponsive" type="button" class="byiu-right-icon" (click)="openModal(template)">
+  <svg class="icon icon-cart" viewBox="0 0 30 30">
+    <use xlink:href="assets/img/sprite.svg#icon-cart"></use>
+  </svg>
+</button>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{'Add to Cart' | translate}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="byi-addtocart-box ">
+
+
+      <!-- Custom Options Section -->
+      <div class="byi-cart-custom" custom-options *ngIf="customOptionsData && customOptionsData.length">
+      </div>
+      <form [formGroup]="customForm" name="customForm" id="customForm">
+        <div printing-methods [parentFormGroup]="customForm" [isClickedAddtoCart]="isClickedAddtoCart"></div>
+      </form>
+      <!-- END OF Custom Options Section -->
+
+      <!-- Simple Product Section -->
+      <div class="qty-container" *ngIf="mainService.productType == 'simple'">
+        <label>{{'Quantity' | translate}}</label>
+        <input class="byi-input size-qty" name="qty" [(ngModel)]="qty" type="text"
+          (keypress)="confProductService.keyPress($event)" (input)="simpleProductQtyUpdated($event.target.value)">
+        <span *ngIf="qty <= 0" class="text-danger">
+          Invalid Quantity
+        </span>
+      </div>
+      <!-- END OF Simple product section -->
+
+
+      <!-- Product Attribute Selection section -->
+      <div *ngIf="showConfigurableOptions()" conf-product-attr [confProductOptionsObject]="confProductOptionsObject">
+      </div>
+      <!-- END OF Product Attribute Selection section -->
+
+      <div class="byi-cart-note">
+        <label>Add Note</label>
+        <input class="byi-input" type="textarea" name="note" [(ngModel)]="addnote">
+      </div>
+      <div class="byi-used-colors" *ngIf="canvasService.usedColorCounter">
+        <label>Used Colors <span>{{ '(' + canvasService.usedColorCounter + ')'}}</span></label>
+      </div>
+
+      <!-- Cart Footer Section -->
+      <div class="byi-cart-footer">
+        <div class="byic-left">
+          <span class="byic-price">{{priceService.getPrice()}}</span>
+          <span *ngIf="showBothPrices">(Excl. Tax: {{productPriceExclTax}})</span>
+        </div>
+        <div class="byic-right">
+          <button type="button" class="byi-atc-btn" (click)="validateCartData()">{{'Add to Cart' | translate}}</button>
+        </div>
+      </div>
+      <div *ngIf="tierPriceData && tierPriceData.length > 0" class="byi-tierprice-info">
+        <p *ngFor="let data of tierPriceData">Buy {{data.price_qty}} for {{formatCurrency(data.price_with_Tax)}} <span
+            *ngIf="showBothPrices">(Excl. Tax:{{formatCurrency(data.website_price)}})</span> each and save
+          {{data.percentage_value}}%</p>
+      </div>
+      <!-- END OF Cart Footer Section -->
+
+    </div>
+  </div>
+</ng-template>

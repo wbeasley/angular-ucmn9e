@@ -1,0 +1,85 @@
+<common-tabs [subTabsData]="subTabsData" [activeAccordion]="accordianId" *ngIf="!loadContent"></common-tabs>
+<div loader #subtabLoader></div>
+
+
+<div class="byi-accord-content" *ngIf="loadContent">
+	<div class="byi-top-filters" *ngIf="canvasService.uploadFile && canvasService.uploadFile.length > 0">
+		<ng-container *ngIf="mainService.isResponsive">
+			<div class="byi-fullview-toggle">
+				<button type="button" (click)="showFonts(showAllFonts)">
+					<span></span>
+					<span></span>
+					<span></span>
+				</button>
+			</div>
+		</ng-container>
+	</div>
+	<div class="byi-img-upload-wrap">
+		<div id="upload_agreement_box" [ngClass]="(canvasService.confimationclass && !canvasService.checkConfimation) ? 'focused' : ''" class="upload-agreement-box"
+			*ngIf="confirmImageUpload" [hidden]="showAllFonts" (change)="changeconfimationvalue()">
+			<label class="byi-checkbox">
+				<input id="upload_agreement" type="checkbox" [(ngModel)]="canvasService.checkConfimation"> {{confirmImageText}}
+				<span></span>
+			</label>
+		</div>
+		<div class="byi-img-upload" [class.byi-img-upload-mob]="mainService.isResponsive">
+			<div class="byi-uploader">
+				<div class="byi-file-upload" *ngIf="!mainService.isResponsive">
+					<span class="upload-icon">
+						<svg class="icon icon-upload" viewBox="0 0 30 30">
+							<use xlink:href="assets/img/sprite.svg#icon-upload"></use>
+						</svg>
+					</span>
+					<span>{{'Choose a file or drag it here.' | translate}}</span>
+					<ng-container [ngTemplateOutlet]="uploader"></ng-container>
+				</div>
+				<ng-container *ngIf="mainService.isResponsive && !showAllFonts">
+					<span class="upload-icon">
+						<svg class="icon icon-upload-mob" viewBox="0 0 40 40">
+							<use xlink:href="assets/img/sprite.svg#icon-upload-mob"></use>
+						</svg>
+					</span>
+					<ng-container [ngTemplateOutlet]="uploader"></ng-container>
+				</ng-container>
+			</div>
+			<div class="byi-social-media-import" social-media-import [hidden]="showAllFonts"></div>
+		</div>
+		<div class="byi-social-media-listing" social-media-listing></div>
+		<div class="byi-upload-list" *ngIf="canvasService.uploadFile && canvasService.uploadFile.length > 0">
+			<ul #scrollToBottom>
+				<li *ngFor="let imgData of canvasService.uploadFile; let i = index">
+					<span>
+						<button type="button" (click)="deleteImg(imgData.url, imgData.id,i)" class="byi-icon-delete">
+							<svg class="icon icon-t-delete" viewBox="0 0 30 38">
+								<use xlink:href="assets/img/sprite.svg#icon-t-delete"></use>
+							</svg>
+						</button>
+						<img draggable="true" [src]="imgData.url" [attr.url]="imgData.medium_url" class="byidraggable" [attr.tab]="'upload'" [attr.drop]="imgData.drop"  (click)="addImageToCanvas(imgData.medium_url,{})"
+							(error)="getDefaultImage(imgData)" alt="">
+					</span>
+				</li>
+			</ul>
+		</div>
+		<div class="loadmore-action" *ngIf="mainService.isResponsive && isEnableloadmore">
+			<input class="loadmore-btn" type="button" value="{{'Load More' | translate}}" (click)="loadMoreDesigns()">
+		</div>
+		<div class="byi-list-loader" loader #loaderComponent></div>
+		<div class="loadmore-action" *ngIf="!mainService.isResponsive && isEnableloadmore">
+			<input class="loadmore-btn" type="button" value="{{'Load More' | translate}}" (click)="loadMoreImages()">
+		</div>
+		<div class="byi-info-note" *ngIf="showInstruction && !showAllFonts">
+			<p>{{instructionText}}</p>
+		</div>
+		<div class="byi-customer-login" *ngIf="!mainService.userLoggedIn && mainService.isAdmin == false"
+			[hidden]="showAllFonts">
+			<button (click)="login()" class="byi-btn byi-btn-xs"
+				type="button">{{'Get your saved images' | translate}}</button>
+		</div>
+		<div class="byi-apply-all" apply-images [files]="canvasService.uploadFile" [byitab]="'upload'"></div>
+	</div>
+</div>
+<ng-template #uploader>
+	<form enctype="multipart/form-data">
+		<input #myInput type="file" accept="image/*" (click)="checkConfirmation()" (change)="drop($event,false)" multiple>
+	</form>
+</ng-template>

@@ -1,0 +1,41 @@
+<accordion-group class="byi-accord" *ngIf="!mainService.isResponsive"  [hidden]="componentHide">
+	<button class="byi-accordion-title" accordion-heading>
+		<span>{{'Object Position' | translate}}</span>
+	</button>
+	<div class="byi-accord-content">
+		<ng-container [ngTemplateOutlet]="objectPosition"></ng-container>
+	</div>
+</accordion-group>
+<tab *ngIf="mainService.isResponsive && tabsService.checkIfExistChild('object-position')"  [attr.hidden]="componentHide"  [customClass]="'isResponsiveTab'">
+	<ng-template tabHeading>
+		<span>{{'Object Position' | translate}}</span>
+	</ng-template>
+	<ng-container [ngTemplateOutlet]="objectPosition"></ng-container>
+</tab>
+<ng-template #objectPosition>
+	<div class="byie-option">
+		<div class="byi-global-reset">
+			<button (click)="clear()" class="byi-range-reset-link" tooltip="{{'Reset' | translate}}">
+				<svg class="icon icon-reset" viewBox="0 0 30 30">
+					<use xlink:href="assets/img/sprite.svg#icon-reset"></use>
+				</svg>
+			</button>
+		</div>
+		<div class="byi-range-box byie-count-wrap">
+			<label>{{'X' | translate}}</label>
+			<div class="byi-rb-input">
+				<span class="byie-count">{{positionX.toFixed()}}</span>
+				<input type="range" [(ngModel)]="positionX" [min]="minX" [max]="maxX" step="0.1" (input)="changePositionX()"
+				class="slider">
+			</div>
+		</div>
+		<div class="byi-range-box byie-count-wrap">
+			<label>{{'Y' | translate}}</label>
+			<div class="byi-rb-input">
+				<span class="byie-count">{{positionY.toFixed()}}</span>
+				<input type="range" [(ngModel)]="positionY" [min]="minY" [max]="maxY" step="0.1" (input)="changePositionY()"
+				class="slider">
+			</div>
+		</div>
+	</div>
+</ng-template>

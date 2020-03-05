@@ -1,0 +1,17 @@
+<ng-template #cropperModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{'Crop Image' | translate}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="byi-img-crop">
+      <img [src]="currentImage" #currentCanvasImage id="currentCanvasImage" class="cropper-image" height="auto" width="auto"
+      crossOrigin="Anonymous">
+    </div>
+    <div class="byi-ic-action">
+      <button class="byi-btn" (click)="saveCroppedImage()">{{'Apply Crop' | translate}}</button>
+    </div>
+  </div>
+</ng-template>

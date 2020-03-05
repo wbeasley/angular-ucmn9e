@@ -1,0 +1,125 @@
+<div [attr.hidden]="(displayAllProducts) ? null : true">
+  <div [attr.hidden]="(mainService.isAdmin == false) ? null : true" class="byi-products-inner" [class.open]="isToggle">
+    <button type="button" class="byi-button" (click)="isToggleOpen()" tooltip="{{'Change Product' | translate}}">{{productName}} <span class="caret"></span></button>
+    <div class="byi-products-wrap">
+      <div class="btc-pro-filter">
+        <div class="btc-pf-select">
+          <div class="byi-dropdown" *ngIf="productsCategory?.length != 0">
+            <div class="btn-group" dropdown [class.open]="isToggleCategory">
+              <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle productsContainer"
+              (click)="isToggleCategory = !isToggleCategory"> {{selectedCat?.name}}
+              <span class="caret"></span>
+            </button>
+            <ul *dropdownMenu class="dropdown-menu" role="menu">
+              <li class="productsContainer" role="menuitem" *ngFor="let category of productsCategory" (click)="onChangeCategory(category,'')"
+              [ngClass]="{'selected': selectedCat.id == category.id }">
+              <span *ngFor="let i of getNumberArray(category.level)">-</span>
+              {{category.name}}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="btc-pf-search" >
+        <div class="byi-search">
+          <input class="byi-input productsContainer" (input)="searchProducts($event)" [(ngModel)]="searchText" name="searchText"
+          type="text" placeholder="{{'Search by Name' | translate}}">
+          <button class="byi-search-btn">
+            <svg class="icon icon-search" viewBox="0 0 50 50">
+              <use xlink:href="assets/img/sprite.svg#icon-search"></use>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="byi-product-cat">
+    <div loader #loaderComponent></div>
+    <div class="byi-norecord" *ngIf="loaderComponent.showSubLoader === false && products.length == 0">No Products
+    Found</div>
+    <ul *ngIf="products.length !== 0" class="productsContainer">
+      <li *ngFor="let product of products" title="{{product.name}}">
+        <a href="javascript:void(0)" (click)="setTooltipFlag(product.href)">
+          <span>
+            <img [src]="product.url" />
+          </span>
+          <label>{{product.name}}</label>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="loadmore-action" *ngIf="products.length != 0 && products.length > 16">
+    <input class="loadmore-btn" type="button" value="Load More Products" (click)="loadMoreProducts()">
+  </div>
+</div>
+</div>
+
+<div class="byi-product-wrap" *ngIf="mainService.isResponsive && mainService.isAdmin == false">
+  <span class="byi-prod-name byi-caret-enable" (click)="isToggleOpen()">{{productName}}</span>
+  <div class="byi-products-inner" [class.open]="isToggle">
+    <div class="byi-top-head">
+      <ul class="byi-breadcrum">
+        <li *ngFor="let cat of selectedProductsCategory">
+          <a href="javascript:void(0)" (click)="parseCat(cat)"><span>{{cat.name}}</span></a>
+          <ul class="byi-sub-menu" [hidden]="!cat.showSub">
+            <ng-container *ngFor="let category of currentResponsiveCats">
+              <li class="level1" [ngClass]="{'selected': cat.id == category.id }" >
+                <a href="javascript:void(0)" (click)="onChangeCategory(category,'')"><span>{{category.name}}</span></a>
+
+                <span class="byi-toggle-icon byi-expand" *ngIf="category.subcategory && category.subcategory.length > 0 && activeSubCat != category.id && category.level == 2" (click)="activeSubCat = category.id">+</span>
+                <span class="byi-toggle-icon byi-collapse" *ngIf="category.subcategory && category.subcategory.length > 0 && activeSubCat == category.id && category.level == 2" (click)="activeSubCat = 0">-</span>
+                <span class="byi-toggle-icon byi-back" *ngIf="category.level != 2" (click)="backCategory(category)"> <span></span> </span>
+                <ul class="byi-sub-menu" [hidden]="activeSubCat != category.id" *ngIf="category.subcategory && category.subcategory.length > 0">
+                  <ng-container *ngFor="let subcategory of category.subcategory">
+                    <li class="level1">
+                      <a href="javascript:void(0)" (click)="onChangeCategory(subcategory,'')"><span>{{subcategory.name}}</span></a>
+                      <span class="byi-toggle-icon byi-sub-expand" *ngIf="subcategory.subcategory && subcategory.subcategory.length > 0 " (click)="updateShownCat(category.id,subcategory.id)"> > </span>
+                    </li>
+                  </ng-container>
+                </ul>
+              </li>
+            </ng-container>
+          </ul>
+        </li>
+      </ul>
+      <button class="byi-close-btn" type="button" (click)="isToggleOpen()">
+        <span></span>
+      </button>
+    </div>
+    <div class="byi-top-filters">
+      <div class="byi-search">
+        <input class="byi-input" name="searchText" (input)="searchProducts($event)" placeholder="Search by Name"
+        type="text">
+        <button class="byi-search-btn">
+          <svg class="icon icon-search" viewBox="0 0 50 50">
+            <use xlink:href="assets/img/sprite.svg#icon-search"></use>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="byi-product-cats">
+      <div loader #loaderComponent></div>
+      <div class="byi-norecord" *ngIf="loaderComponent.showSubLoader === false && products.length == 0">No Products
+      Found</div>
+      <ul *ngIf="products.length !== 0">
+        <li *ngFor="let product of products">
+          <a href="javascript:void(0)" (click)="setTooltipFlag(product.href)">
+            <span>
+              <img [src]="product.url" />
+            </span>
+            <label>{{product.name}}</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="loadmore-action" *ngIf="products.length != 0 && products.length > 16">
+      <input class="loadmore-btn" type="button" value="{{'Load More Products' | translate}}"
+      (click)="loadMoreProducts()">
+    </div>
+  </div>
+</div>
+</div>
+<div *ngIf="!displayAllProducts || mainService.isAdmin">
+  <button type="button" class="byi-button" *ngIf="!mainService.isResponsive" >{{productName}}</button>
+  <span class="byi-prod-name no-caret" *ngIf="mainService.isResponsive"  >{{productName}}</span>
+</div>

@@ -1,0 +1,338 @@
+$byi-req-demo-color: #fa3a5e;
+@keyframes pulse {to {box-shadow: 0 0 0 13px rgba(232, 76, 61, 0);}}
+
+.byi-footer-cta {
+  &:empty {
+    display: none;
+  }
+  .byi-btn {
+    padding: 0 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    text-decoration: none;
+    color: $byi-light;
+    min-width: auto;
+    min-height: 33px;
+    margin-left: 20px;
+    transition: 0.35s ease all;
+    & + .byi-btn {
+      margin-left: 10px;
+    }
+    .byi-btn__icon {
+      width: 26px;
+      height: 26px;
+      margin-right: 5px;
+      svg {
+        fill: $byi-light;
+      }
+    }
+  }
+  .byi-livechat-btn {
+    background-color: $byi-req-demo-color;
+    &:hover {
+      background-color: $byi-req-demo-color;
+    }
+  }
+}
+
+.byi-pricepage-link {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  a {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 0 8px;
+    min-height: 33px;
+    border-radius: 5px;
+    color: $byi-text-color;
+    border: 1px solid $byi-theme;
+    background-color: $byi-accord-bg;
+    transition: 0.35s ease all;
+    margin-right: 15px;
+    &:last-child {
+      margin-right: 0;
+    }
+    &.byi-product-demo-btn {
+      position: relative;
+      color: $byi-light;
+      padding: 0 15px;
+      border-color: $byi-req-demo-color;
+      background-color: $byi-req-demo-color;
+      box-shadow: 0 0 0 0 rgba($byi-req-demo-color, 0.5);
+      animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+      svg {
+        fill: $byi-light;
+      }
+      &:hover {
+        border-color: $byi-req-demo-color;
+        background-color: $byi-req-demo-color;
+      }
+    }
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: $byi-text-color;
+      margin-right: 5px;
+      transition: 0.35s ease all;
+    }
+    &:hover {
+      color: $byi-light;
+      background-color: $byi-theme;
+      svg {
+        fill: $byi-light;
+      }
+    }
+  }
+}
+
+.modal {
+  .byi-reqdemo-modal {
+    max-width: 695px;
+    .byi-login-tab {
+      padding: 10px 10px 20px 10px;
+    }
+    .byi-float-label {
+      width: 50%;
+      padding: 0 10px;
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+    }
+    .byi-float-checkbox,
+    .byi-form-action {
+      padding: 0 10px;
+    }
+    @media screen and (max-width: 767px) {
+      .byi-float-checkbox {
+        .byi-checkbox {
+          > span {
+            top: 4px;
+          }
+        }
+      }
+    }
+    .byi-group-element {
+      &:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      textarea {
+        &.byi-input {
+          height: 55px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .byi-fab {
+    position: fixed;
+    top: 100px;
+    right: 15px;
+    z-index: 999;
+    &.hide {
+      z-index: -1;
+      opacity: 0;
+    }
+    &.byi-fab-option-active {
+      top: 170px;
+    }
+    &.byi-fab-active {
+      &:before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        background-color: rgba($byi-light, 0.5);
+      }
+      .byi-fab-action {
+        span {
+          transform: rotate(135deg);
+        }
+      }
+      .byi-fab-btn-list {
+        opacity: 1;
+        visibility: visible;
+        .byi-fab-btn {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+      }
+    }
+    .byi-fab-action {
+      cursor: pointer;
+      position: relative;
+      border: none;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      box-shadow: 0 1px 5px -1px rgba($byi-dark, 0.5);
+      background: -webkit-gradient(
+        linear,
+        left bottom,
+        right top,
+        from(#8b5fda),
+        color-stop(#a85ed9),
+        color-stop(#c25ed6),
+        color-stop(#da5ed2),
+        to(#f05fcc)
+      );
+      background: -o-linear-gradient(left bottom, #8b5fda, #a85ed9, #c25ed6, #da5ed2, #f05fcc);
+      background: linear-gradient(to right top, #8b5fda, #a85ed9, #c25ed6, #da5ed2, #f05fcc);
+      span {
+        font-size: 0px;
+        width: 21px;
+        height: 21px;
+        display: block;
+        margin: auto;
+        transform: rotate(0);
+        transition: 0.35s cubic-bezier(0.075, 0.82, 0.165, 1) transform;
+        &:after,
+        &:before {
+          float: left;
+          position: absolute;
+          content: "";
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          margin: auto;
+          background: $byi-light;
+        }
+        &:before {
+          width: 3px;
+          height: 21px;
+        }
+        &:after {
+          width: 21px;
+          height: 3px;
+        }
+      }
+    }
+    .byi-fab-btn-list {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      text-align: right;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.35s cubic-bezier(0.075, 0.82, 0.165, 1) all;
+      .byi-fab-btn {
+        border: none;
+        padding: 5px 5px 5px 10px;
+        border-radius: 20px;
+        text-decoration: none;
+        color: $byi-theme;
+        font-weight: 600;
+        display: inline-block;
+        white-space: nowrap;
+        text-align: left;
+        font-size: 12px;
+        margin-top: 10px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+        background-color: $byi-main-bg;
+        transition: 0.35s cubic-bezier(0.075, 0.82, 0.165, 1) all;
+        box-shadow: 0 1px 5px -1px rgba($byi-dark, 0.5);
+        .byi-fab-btn-icon {
+          height: 32px;
+          width: 32px;
+          border: none;
+          padding: 5px;
+          display: inline-block;
+          vertical-align: middle;
+          border-radius: 50%;
+          margin-left: 10px;
+          background-color: $byi-theme;
+          svg {
+            fill: $byi-light;
+          }
+        }
+        span {
+          display: inline-block;
+          vertical-align: middle;
+        }
+        &.byi-fab-reqdemo {
+          color: $byi-req-demo-color;
+          .byi-fab-btn-icon {
+            background-color: $byi-req-demo-color;
+          }
+        }
+        &.byi-fab-livechat {
+          color: $byi-req-demo-color;
+          transition-delay: 0.05s;
+          .byi-fab-btn-icon {
+            background-color: $byi-req-demo-color;
+          }
+        }
+        &.byi-fab-pricing {
+          transition-delay: 0.08s;
+        }
+      }
+    }
+  }
+}
+.byi-tel-input{
+  .input-select-div .select2-container{
+    // width: auto !important;
+  }
+  .input-main-div .CountryNumberInput{
+    height: 35px !important;
+    width: 100%;
+  }
+  .input-select-div{
+    .select2-container{
+      width: 102px;
+      margin-right: 3px;
+      .select2-selection--single{
+        height: 35px !important;
+        .CountryOptionSelected{
+          width: 100%;
+          line-height: 29px;
+          .flags{
+            height: 19px;
+          }
+        }
+        .select2-selection__arrow{
+          height: 35px;
+          top: 0;
+        }
+      }
+    }
+  }
+  input{
+    text-indent: unset;
+    height: 35px;
+    width: calc(100% - 105px);
+    min-width: auto;
+    vertical-align: middle;
+    &:focus{
+      box-shadow: none!important;
+    }
+  }
+}

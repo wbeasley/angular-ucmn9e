@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i");
+/*------------------------------------------------------------------
+[Master Stylesheet]
+
+Project:    Brush Your Ideas
+Version:    2.0.0
+-------------------------------------------------------------------*/
+
+/* You can add global styles to this file, and also import other style files */
+@import 'assets/sass/theme-switch.scss';
+@import 'assets/sass/variables.scss';
+@import 'assets/sass/base.scss';
+@import 'assets/sass/header.scss';
+@import 'assets/sass/button.scss';
+@import 'assets/sass/tabs.scss';
+@import 'assets/sass/byi-accordion.scss';
+@import 'assets/sass/designarea.scss';
+@import 'assets/sass/action-box.scss';
+@import 'assets/sass/right-panel.scss';
+@import 'assets/sass/upload.scss';
+@import 'assets/sass/modal.scss';
+@import 'assets/sass/footer.scss';
+
+/* addons scss added here */
+@import 'assets/sass/addons.scss';
+
+/* responsive css must be the last css */
+@import 'assets/sass/responsive.scss';

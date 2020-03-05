@@ -1,0 +1,5 @@
+<div class="byi-cart-price" *ngIf="mainService.isAdmin == false">
+	<label *ngIf="priceService.totalQty > 1">{{'Total' | translate}} ({{priceService.totalQty}})</label>
+	<span class="cart-amt">{{priceService.getPrice()}}</span>
+	<span price-info></span>
+</div>

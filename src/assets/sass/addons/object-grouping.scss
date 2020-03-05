@@ -1,0 +1,16 @@
+.byi-general-options {
+  .byig-option {
+    .byig-control {
+      span {
+        &[object-grouping],
+        &[distribute-vertical-horizontal-alignment] {
+          display: inline-block;
+          vertical-align: middle;
+        }
+        &[object-grouping] {
+          margin-right: 13px;
+        }
+      }
+    }
+  }
+}

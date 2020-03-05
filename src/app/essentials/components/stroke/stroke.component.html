@@ -1,0 +1,38 @@
+<accordion-group class="byi-accord" *ngIf="!mainService.isResponsive" [hidden]="componentHide">
+  <button class="byi-accordion-title" accordion-heading>
+    <span>{{'Stroke' | translate}}</span>
+  </button>
+  <div class="byi-accord-content">
+    <ng-container [ngTemplateOutlet]="stroke"></ng-container>
+  </div>
+</accordion-group>
+<tab *ngIf="mainService.isResponsive && tabsService.checkIfExistChild('stroke')" [attr.hidden]="componentHide"  [customClass]="'isResponsiveTab'">
+  <ng-template tabHeading>
+    <span>{{'Stroke' | translate}}</span>
+  </ng-template>
+  <ng-container [ngTemplateOutlet]="stroke"></ng-container>
+</tab>
+<ng-template #stroke>
+  <div class="byie-option">
+    <div class="byi-range-box byie-count-wrap">
+      <div class="byi-global-reset">
+        <div class="byie-custom-color">
+          <div *ngIf="selectedColor" [type]="'simple'" custom-color-picker [activeColor]="selectedColor"
+            [hideColorToggle]="hideColorToggleOutline" (colorPickerToggle)="colorPickerToggleOutline($event)"
+            (changeColorEvent)="changeColorOutline($event)"></div>
+        </div>
+        <button class="byi-range-reset-link" (click)="resetOutline()" tooltip="{{'Reset' | translate}}">
+          <svg class="icon icon-reset" viewBox="0 0 30 30">
+            <use xlink:href="assets/img/sprite.svg#icon-reset"></use>
+          </svg>
+        </button>
+      </div>
+      <div class="byi-rb-input">
+        <span class="byie-count">{{(outline/10).toFixed(1)}}</span>
+        <input type="range" [(ngModel)]="outline" min="0" max="10" step="0.1"
+          (mousedown)="setPrevValue($event.target.value)" (change)="stackToUndo()" (input)="changeOutline()"
+          class="slider">
+      </div>
+    </div>
+  </div>
+</ng-template>

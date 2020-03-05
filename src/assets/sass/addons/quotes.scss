@@ -1,0 +1,50 @@
+.byi-tab-quote-items {
+  ul {
+    max-height: 235px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid $byi-border-color;
+    margin-bottom: 5px;
+    border-radius: 4px;
+
+    li {
+      padding: 10px;
+      line-height: normal;
+      cursor: pointer;
+      text-align: left;
+      color: $byi-text-color;
+      border-bottom: 1px solid $byi-border-color;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+
+      &:nth-child(odd) {
+        @if($byi-dark-scheme==true) {
+          background-color: $byi-input-bg;
+        }
+
+        @else {
+          background-color: darken($byi-input-bg, 10%);
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    position: absolute;
+    top: 75px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 14px 10px 10px 10px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background-color: $byi-panel-bg;
+    border-top: 1px solid $byi-border-color;
+    
+    ul {
+      max-height: none;
+    }
+  }
+}

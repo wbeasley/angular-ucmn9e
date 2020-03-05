@@ -1,0 +1,40 @@
+<div class="byi-idea {{responsiveClass}}" [ngClass]="{'byi-idea-fullview' : showAllFonts == true}">
+	<tabset #masterTabs>
+		<ng-container *ngFor="let mainTab of mainTabs; let i = index">
+			<tab *ngIf="mainTab.isAdmin != 0 || mainService.isAdmin == false"
+				[customClass]="totalTabClass ? totalTabClass : ''" [active]="mainTab.id == activeTabId"
+				[attr.data-index]="i" (selectTab)="fetchTabData(i,mainTab.id)">
+				<div>
+				<ng-template tabHeading>
+					<i container="body" placement="top" attr.class="byii byii-{{mainTab.component}}">
+						<svg attr.class="icon icon-{{mainTab.component}}" viewBox="0 0 50 50">
+							<use attr.xlink:href="assets/img/sprite.svg#icon-{{mainTab.component}}"></use>
+						</svg>
+					</i>
+					<span (click)="closeFontFamilyView()">{{mainTab.label | translate}}</span>
+				</ng-template>
+				</div>
+				<button *ngIf="mainService.isResponsive && !showAllFonts" type="button" class="byi-close-btn"
+					(click)="closeTab()">
+					<span>11</span>
+				</button>
+				<ng-container *ngIf="mainService.isResponsive && showAllFonts">
+					<label class="byi-fullview-title">{{title}}</label>
+					<button type="button" class="byi-close-btn" (click)="closeFullView(showAllFonts)" *ngIf="fullViewCloseIcon">
+						<span>11</span>
+					</button>
+				</ng-container>
+				<div class="tab-content-inner" plain-text *ngIf="mainTab.id == 1"></div>
+				<div class="tab-content-inner" clipart *ngIf="mainTab.id == 2"></div>
+				<div class="tab-content-inner" image-upload *ngIf="mainTab.id == 3"></div>
+				<div class="tab-content-inner" background-color *ngIf="mainTab.id == 4"></div>
+				<div class="tab-content-inner" my-designs *ngIf="mainTab.id == 5"></div>
+				<div class="tab-content-inner" name-number *ngIf="mainTab.id == 6"></div>
+				<div class="tab-content-inner" design-templates *ngIf="mainTab.id == 7"></div>
+				<div class="tab-content-inner" background-patterns *ngIf="mainTab.id == 8"></div>
+				<div class="tab-content-inner" quotes *ngIf="mainTab.id == 9"></div>
+			</tab>
+		</ng-container>
+		<div *ngIf="activeTabId == 0" intro [introActive]='true'></div>
+	</tabset>
+</div>

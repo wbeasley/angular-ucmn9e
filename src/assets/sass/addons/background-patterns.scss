@@ -1,0 +1,29 @@
+.byi-upload-pattern {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.isResponsiveTab {
+  .background-pattern {
+    width: auto;
+    display: block;
+    margin: 0 -10px;
+    .byi-select-pattern-repeat {
+      float: none;
+      width: 100%;
+      padding: 0 10px;
+      margin: 0 0 15px 0;
+      .caret {
+        right: 20px;
+      }
+    }
+    .byi-range-box.byie-count-wrap {
+      width: 50%;
+      float: left;
+      padding: 0 10px;
+      &:last-child {
+        width: 100%;
+      }
+    }
+  }
+}

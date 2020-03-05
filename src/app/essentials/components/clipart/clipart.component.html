@@ -1,0 +1,72 @@
+<common-tabs [subTabsData]="subTabsData" [activeAccordion]="accordianId" *ngIf="!loadContent"></common-tabs>
+<div loader #subtabLoader></div>
+<div class="byi-accord-content" *ngIf="loadContent">
+   <div class="byi-top-filters">
+      <ng-container *ngIf="mainService.isResponsive" [attr.hidden]="componentHide">
+         <div class="byi-fullview-toggle">
+            <button type="button" (click)="showFonts(showAllFonts)">
+               <span></span>
+               <span></span>
+               <span></span>
+            </button>
+         </div>
+      </ng-container>
+      <div class="byi-dropdown">
+         <div class="btn-group" dropdown>
+            <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+               {{SelectedClipartCat?.name}}<span class="caret"></span>
+            </button>
+            <ul *dropdownMenu class="dropdown-menu" role="menu">
+               <li role="menuitem" *ngFor="let clipArtCat of clipArtcategories"
+                  [ngClass]="clipArtCat.level == 0 ? 'main-product-category' : 'sub-product-category'"
+                  [class.selected]="clipArtCat.id === SelectedClipartCat.id" (click)="changeClipartCat(clipArtCat)">
+                  <a class="dropdown-item" href="javascript:void(0)">
+                     <span *ngFor="let i of getNumberArray(clipArtCat.level)">-</span>
+                     {{clipArtCat.name}}</a>
+               </li>
+            </ul>
+         </div>
+      </div>
+
+      <div class="byi-search">
+         <input class="byi-input" name="searchText" (input)="searchCliprt($event)" placeholder="{{'Search Clipart' | translate}}"
+            type="text">
+         <button class="byi-search-btn">
+            <svg class="icon icon-search" viewBox="0 0 50 50">
+               <use xlink:href="assets/img/sprite.svg#icon-search"></use>
+            </svg>
+         </button>
+      </div>
+   </div>
+   <div class="byi-norecord"
+      *ngIf="loaderComponent.showSubLoader === false && clipArtmedia && clipArtmedia.length == 0">
+      {{'No Cliparts Found' | translate}}
+   </div>
+   <div *ngIf="clipArtmedia.length > 0" #mainSection class="byi-tab-cats byi-tab-cats-clipart">
+      <ul infiniteScroll [horizontal]="true" [infiniteScrollDistance]="0" [infiniteScrollThrottle]="1000"
+         [scrollWindow]="false" [infiniteScrollDisabled]="!isEnableloadmore || !allowPlaceholderLoader"
+         (scrolled)="loadMoreClipArt()" #scrollToBottom>
+         <li *ngFor="let media of clipArtmedia"
+            [attr.hidden]="(showPlaceholder && allowPlaceholderLoader) ? true : null">
+            <a [ngClass]="{'image-with-text': !media.label && media.price}"
+               href="javascript:void(0)" (click)="addClipartToCanvas(media.medium_url,media.price,{})">
+               <span><img [src]="media.image_path" [attr.tab]="'clipart'" [attr.dragprice]="media.price" [attr.url]="media.medium_url" class="byidraggable"  (error)="getDefaultImage(media)"></span>
+               <label *ngIf="media.label">{{media.label}}</label>
+               <label class="byi-cats-price">
+                  {{(media.price && media.price > 0) ? formatCurrency(media.price) : 'Free'}}
+               </label>
+            </a>
+         </li>
+         <li [attr.hidden]="(!showPlaceholder || !allowPlaceholderLoader) ? true : null"
+            *ngFor="let temp of mainService.customPlaceholderArr" placeholder-loader [loaderHeight]='84'
+            [loaderWidth]='84'></li>
+      </ul>
+      <div class="byi-apply-all" apply-images [files]="clipArtmedia" [byitab]="'clipart'"></div>
+      <div
+         *ngIf="loadContent && isEnableloadmore && (!mainService.isResponsive || (mainService.isResponsive && showAllFonts))"
+         class="loadmore-action">
+         <input class="loadmore-btn" type="button" value="{{'Load More' | translate}}" (click)="loadMoreClipArt()">
+      </div>
+   </div>
+</div>
+<div loader #loaderComponent></div>

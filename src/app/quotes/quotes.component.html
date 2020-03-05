@@ -1,0 +1,57 @@
+<common-tabs [subTabsData]="subTabsData" [activeAccordion]="accordianId" *ngIf="!loadContent"></common-tabs>
+<div loader #subtabLoader></div>
+<div class="byi-accord-content" *ngIf="loadContent && this.quoteCategoryLoader.showSubLoader == false">
+  <div class="byi-top-filters">
+    <ng-container *ngIf="mainService.isResponsive" [attr.hidden]="componentHide">
+      <div class="byi-fullview-toggle">
+        <button type="button" (click)="showFonts(showAllFonts)">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </ng-container>
+    <div class="byi-dropdown">
+      <div class="btn-group" dropdown>
+        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+          {{selectedQuoteCat?.name}}<span class="caret"></span>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu" role="menu">
+          <li role="menuitem" *ngFor="let quoteCatItem of quoteCategoryData"
+            [ngClass]="quoteCatItem.level == 0 ? 'main-product-category' : 'sub-product-category'"
+            [class.selected]="quoteCatItem.id === selectedQuoteCat.id" (click)="changeQuoteCategory(quoteCatItem)">
+            <a class="dropdown-item" href="javascript:void(0)">
+              <span *ngFor="let i of getNumberArray(quoteCatItem.level)">-</span>
+              {{quoteCatItem?.name}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- no records -->
+  <div class="byi-norecord" *ngIf="quoteDataLoader.showSubLoader == false && quoteData && quoteData.length == 0">
+    {{'No Quotes Found' | translate}}
+  </div>
+
+  <!-- Quotes -->
+  <div *ngIf="quoteData.length > 0" #mainSection class="byi-tab-quote byi-tab-quote-items">
+    <ul #quoteContainer>
+      <li *ngIf="enableNoMessage" (click)='removeAllQuotes()'>
+        <span>{{"No Message" | translate}}</span>
+      </li>
+      <li *ngFor="let quoteItem of quoteData" (click)='addQuoteToCanvas(quoteItem)'>
+        <span>
+          {{quoteItem?.text}}
+        </span>
+      </li>
+    </ul>
+    <div
+      *ngIf="quoteDataLoader.showSubLoader == false && loadContent && isEnableloadmore && (!mainService.isResponsive || (mainService.isResponsive && showAllFonts))"
+      class="loadmore-action">
+      <input class="loadmore-btn" type="button" value="{{'Load More' | translate}}" (click)="loadMoreQuotes()">
+    </div>
+  </div>
+
+</div>
+<div loader #loaderComponent></div>

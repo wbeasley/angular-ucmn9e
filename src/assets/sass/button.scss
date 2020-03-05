@@ -1,0 +1,219 @@
+.byi-btn {
+  background: $byi-theme;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  color: $byi-light;
+  min-height: 35px;
+  min-width: 136px;
+  border-radius: 4px;
+  cursor: pointer;
+  &.byi-btn-xs {
+    min-width: auto;
+    min-height: 35px;
+    padding: 5px 10px;
+  }
+  &:hover {
+    background: darken($byi-theme, 8%);
+  }
+  &:active,
+  &:focus {
+    background: darken($byi-theme, 5%);
+  }
+}
+
+/*----------------------------
+	Load More Action Button 
+------------------------------*/
+
+.loadmore-action {
+  text-align: center;
+  .loadmore-btn {
+    margin: 10px 0 0;
+    color: $byi-text-color;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    background: none;
+    text-transform: uppercase;
+    font-size: 14px;
+    border-radius: 0;
+    transition: 0.2s ease color;
+    border-bottom: 1px solid $byi-theme;
+    &:hover {
+      color: $byi-theme;
+    }
+  }
+  &.la-with-loader {
+    .loadmore-btn {
+      margin: 10px 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .loader-box {
+      width: auto;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+}
+
+/*----------------------------
+		Close Button
+------------------------------*/
+
+.byi-close-btn {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  margin: auto;
+  opacity: 1;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  &:hover {
+    opacity: 1;
+  }
+  span {
+    font-size: 0px;
+    width: 24px;
+    height: 24px;
+    display: block;
+    margin: auto;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    &:after,
+    &:before {
+      float: left;
+      position: absolute;
+      content: "";
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      background: $byi-lighticon;
+    }
+    &:before {
+      width: 2px;
+      height: 16px;
+    }
+    &:after {
+      width: 16px;
+      height: 2px;
+    }
+  }
+}
+
+/* ------------------------------
+		BYI Back Button
+  -----------------------------*/
+.byi-back-btn {
+  border: none;
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+  border-radius: 0;
+  background-color: transparent;
+  span {
+    position: relative;
+    height: 2px;
+    width: 18px;
+    display: block;
+    margin: 0 auto;
+    background: $byi-lighticon;
+    &:before,
+    &:after {
+      content: "";
+      background: $byi-lighticon;
+      position: absolute;
+      height: 2px;
+      width: 10px;
+    }
+
+    &:before {
+      left: -3px;
+      bottom: -3px;
+      transform: rotate(45deg);
+    }
+
+    &:after {
+      left: -3px;
+      top: -3px;
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+/* ------------------------------
+		BYI Add More Button
+  -----------------------------*/
+
+.btn-add-more {
+  margin-top: 14px;
+  border: none;
+  color: $byi-text-color;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 600;
+  background-color: transparent;
+  border-bottom: 1px solid $byi-theme;
+  @media (hover: hover) {
+    &:hover {
+      color: $byi-theme;
+      .icon {
+        &.icon-plus {
+          &:before,
+          &:after {
+            background: $byi-theme;
+          }
+        }
+      }
+    }
+  }
+
+  .icon {
+    position: relative;
+    margin-right: 3px;
+
+    &.icon-plus {
+      font-size: 0px;
+      width: 8px;
+      height: 8px;
+      display: inline-block;
+      vertical-align: middle;
+
+      &:before,
+      &:after {
+        position: absolute;
+        content: "";
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        background: $byi-text-color;
+      }
+
+      &:before {
+        width: 1px;
+        height: 7px;
+      }
+
+      &:after {
+        width: 7px;
+        height: 1px;
+      }
+    }
+
+    & ~ span {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+}

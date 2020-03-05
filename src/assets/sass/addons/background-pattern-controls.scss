@@ -1,0 +1,18 @@
+.byie-option {
+  .byi-select-pattern-repeat {
+    margin-bottom: 10px;
+  }
+}
+
+.byi-general-options {
+  .byig-option {
+    .byig-control {
+      span {
+        &[background-pattern-controls] {
+          display: inline-block;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}

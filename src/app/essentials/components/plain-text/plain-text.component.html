@@ -1,0 +1,8 @@
+<div loader #loaderComponent></div>
+<div class="byi-accord-content" [class.byi-mob-text]="mainService.isResponsive"
+	*ngIf="loaderComponent.showSubLoader === false && loadContent">
+	<textarea class="byi-input noDeleteObject" placeholder="{{'Enter Text' | translate}}" [(ngModel)]="canvasText" (keyup)="addText()" id="textInput" autofocus></textarea>
+	<button class="byi-add-btn" *ngIf="showGreenTick && loadContent && mainService.isResponsive && canvasText && canvasText.length > 0" (click)="showChild()"></button>
+</div>
+
+<common-tabs #commonTabs *ngIf="!loadContent" [subTabsData]="subTabsData" [activeAccordion]="accordianId"></common-tabs>

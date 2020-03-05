@@ -1,0 +1,224 @@
+<cropper #cropper></cropper>
+<div *ngIf="!rightPanelService.mainService.isResponsive" class="byi-right-panel">
+  <div class="byi-general-options">
+    <div class="byig-option-row">
+      <div class="byig-option">
+        <label>{{'Alignment' | translate}}</label>
+        <ul class="byig-control">
+          <li (click)="setAlignment('left')" tooltip="{{'Align Left' | translate}}" container="body"
+            [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+            <svg class="icon icon-align-left" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-align-left"></use>
+            </svg>
+          </li>
+          <li (click)="setAlignment('alignHorizontalCenter')" tooltip="{{'Align Horizontally' | translate}}"
+            container="body" [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+            <svg class="icon icon-align-center" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-align-center"></use>
+            </svg>
+          </li>
+          <li (click)="setAlignment('right')" tooltip="{{'Align Right' | translate}}" container="body"
+            [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+            <svg class="icon icon-align-right" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-align-right"></use>
+            </svg>
+          </li>
+          <li (click)="setAlignment('top')" tooltip="{{'Align Top' | translate}}" container="body"
+            [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+            <svg class="icon icon-align-top" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-align-top"></use>
+            </svg>
+          </li>
+          <li (click)="setAlignment('alignVerticalCenter')" tooltip="{{'Align Vertically' | translate}}"
+            container="body" [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+            <svg class="icon icon-align-vcenter" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-align-vcenter"></use>
+            </svg>
+          </li>
+          <li (click)="setAlignment('bottom')" tooltip="{{'Align Bottom' | translate}}" container="body"
+            [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+            <svg class="icon icon-align-bottom" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-align-bottom"></use>
+            </svg>
+          </li>
+          <span distribute-vertical-horizontal-alignment></span>
+        </ul>
+      </div>
+    </div>
+    <div class="byig-option-row byig-inline-option">
+      <div class="byig-option">
+        <label>{{'Layer' | translate}}</label>
+        <ul class="byig-control">
+          <li (click)="rightPanelService.canvasService.ObjectLayer('forward')" tooltip="{{'Bring Forward' | translate}}"
+            container="body"
+            [ngClass]="{'disabled': rightPanelService.enableForMultipleObj == true || rightPanelService.disabledLayers.indexOf('bringToFront') != -1}">
+            <svg class="icon icon-layer-top" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-layer-top"></use>
+            </svg>
+          </li>
+          <li (click)="rightPanelService.canvasService.ObjectLayer('back')" tooltip="{{'Send To Back' | translate}}"
+            container="body"
+            [ngClass]="{'disabled': rightPanelService.enableForMultipleObj == true || rightPanelService.disabledLayers.indexOf('sendToBack') != -1}">
+            <svg class="icon icon-layer-mbottom" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-layer-mbottom"></use>
+            </svg>
+          </li>
+          <li (click)="rightPanelService.canvasService.ObjectLayer('front')" tooltip="{{'Bring To Front' | translate}}"
+            container="body"
+            [ngClass]="{'disabled': rightPanelService.enableForMultipleObj == true || rightPanelService.disabledLayers.indexOf('bringToFront') != -1}">
+            <svg class="icon icon-layer-mtop" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-layer-mtop"></use>
+            </svg>
+          </li>
+          <li (click)="rightPanelService.canvasService.ObjectLayer('backward')"
+            tooltip="{{'Send Backward' | translate}}" container="body"
+            [ngClass]="{'disabled': rightPanelService.enableForMultipleObj == true || rightPanelService.disabledLayers.indexOf('sendToBack') != -1}">
+            <svg class="icon icon icon-layer-bottom" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-layer-bottom"></use>
+            </svg>
+          </li>
+        </ul>
+      </div>
+      <div class="byig-option">
+        <label>{{'Flip' | translate}}</label>
+        <ul class="byig-control">
+          <li (click)="rightPanelService.canvasService.Flip('horizontal')" tooltip="{{'Flip Horizontal' | translate}}"
+            [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+            <svg class="icon icon-flip-h" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-flip-h"></use>
+            </svg>
+          </li>
+          <li (click)="rightPanelService.canvasService.Flip('vertical')" tooltip="{{'Flip Vertical' | translate}}"
+            [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+            <svg class="icon icon-flip-v" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-flip-v"></use>
+            </svg>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="byig-option-row">
+      <div class="byig-option">
+        <label>{{'Tools' | translate}}</label>
+        <ul class="byig-control">
+          <span object-grouping></span>
+          <li (click)="copyObject()" tooltip="{{'Duplicate' | translate}}"
+            [ngClass]="{'disabled': disableDuplicate() == true}">
+            <svg class="icon icon-t-duplicate" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-t-duplicate"></use>
+            </svg>
+          </li>
+          <li tooltip="{{'Delete' | translate}}" (click)="rightPanelService.canvasService.deleteObject()"
+            [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+            <svg class="icon icon-t-delete" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-t-delete"></use>
+            </svg>
+          </li>
+          <li tooltip="{{'Best Fit' | translate}}" (click)="bestFitObject()"
+            [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+            <svg class="icon icon-best-fit" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-best-fit"></use>
+            </svg>
+          </li>
+          <li tooltip="{{'Crop Image' | translate}}" (click)="cropImage()"
+            [ngClass]="{'disabled': disableCrop == true}">
+            <svg class="icon icon-crop" viewBox="0 0 30 30">
+              <use xlink:href="assets/img/sprite.svg#icon-crop"></use>
+            </svg>
+          </li>
+          <li *ngIf="mainService.isAdmin == true" [ngClass]="{'selected': ultimateLockClass == true, 'disabled': (rightPanelService.disableForSingleObj == true && rightPanelService.enableUltimateLockFlag == true)}"  object-lock tooltip="{{ultimateLockTooltip | translate}}"></li>
+           <span background-pattern-controls [loadContent]="true"></span>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <accordion class="byi-accordion byi-tooltip-right-panel" [closeOthers]="true">
+    <div class="byie-option-wrap" font></div>
+    <div class="byie-option-wrap" stroke></div>
+    <div class="byie-option-wrap" drop-shadow></div>
+    <div class="byie-option-wrap" opacity></div>
+    <div class="byie-option-wrap" skew></div>
+    <div class="byie-option-wrap" object-position></div>
+    <div class="byie-option-wrap" image-effects></div>
+    <div class="byie-option-wrap" background-pattern-controls></div>
+  </accordion>
+</div>
+
+<div *ngIf="rightPanelService.mainService.isResponsive" class="byi-general-option-mob " [class.open]="isOpenClass">
+  <button type="button" class="byi-expand-btn" (click)="isOpenClass = !isOpenClass">
+    <svg class="icon icon-more-right-btn" viewBox="0 0 30 30">
+      <use xlink:href="assets/img/sprite.svg#icon-more-btn"></use>
+    </svg>
+  </button>
+
+  <ul class="byig-option-mob">
+     <span object-grouping></span>
+    <li class="mob-right-panel-options" (click)="copyObject()"
+      [ngClass]="{'disabled': disableDuplicate() == true}">
+      <svg class="icon icon-t-duplicate" viewBox="0 0 30 30">
+        <use xlink:href="assets/img/sprite.svg#icon-t-duplicate"></use>
+      </svg>
+    </li>
+    <li class="mob-right-panel-options" [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+      <svg (click)="rightPanelService.canvasService.deleteObject()" class="icon icon-t-delete" viewBox="0 0 30 30">
+        <use xlink:href="assets/img/sprite.svg#icon-t-delete"></use>
+      </svg>
+    </li>
+    <li class="mob-right-panel-options" title="{{'Best Fit' | translate}}" (click)="bestFitObject()"
+      [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+      <svg class="icon icon-best-fit" viewBox="0 0 30 30">
+        <use xlink:href="assets/img/sprite.svg#icon-best-fit"></use>
+      </svg>
+    </li>
+    <li class="mob-right-panel-options" title="{{'Crop Image' | translate}}" (click)="cropImage()"
+      [ngClass]="{'disabled': disableCrop == true}">
+      <svg class="icon icon-crop" viewBox="0 0 30 30">
+        <use xlink:href="assets/img/sprite.svg#icon-crop"></use>
+      </svg>
+    </li>
+    
+    <li (click)="setAlignment('left')" class="mob-right-panel-options"
+      [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+      <svg class="icon icon-align-left" viewBox="0 0 30 30">
+        <use xlink:href="assets/img/sprite.svg#icon-align-left"></use>
+      </svg>
+    </li>
+    <li class="mob-right-panel-options" (click)="setAlignment('alignHorizontalCenter')"
+      [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+      <svg class="icon icon-align-center" viewBox="0 0 30 30">
+        <use xlink:href="assets/img/sprite.svg#icon-align-center"></use>
+      </svg>
+    </li>
+    <li class="mob-right-panel-options" (click)="setAlignment('right')"
+      [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+      <svg class="icon icon-align-right" viewBox="0 0 30 30">
+        <use xlink:href="assets/img/sprite.svg#icon-align-right"></use>
+      </svg>
+    </li>
+    <li class="mob-right-panel-options" (click)="setAlignment('top')"
+      [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+      <svg class="icon icon-align-top" viewBox="0 0 30 30">
+        <use xlink:href="assets/img/sprite.svg#icon-align-top"></use>
+      </svg>
+    </li>
+    <li class="mob-right-panel-options" (click)="setAlignment('alignVerticalCenter')"
+      [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+      <svg class="icon icon-align-vcenter" viewBox="0 0 30 30">
+        <use xlink:href="assets/img/sprite.svg#icon-align-vcenter"></use>
+      </svg>
+    </li>
+    <li class="mob-right-panel-options" (click)="setAlignment('bottom')"
+      [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}">
+      <svg class="icon icon-align-bottom" viewBox="0 0 30 30">
+        <use xlink:href="assets/img/sprite.svg#icon-align-bottom"></use>
+      </svg>
+    </li>
+    <span distribute-vertical-horizontal-alignment></span>
+    
+    <li class="mob-right-panel-options" [ngClass]="{'disabled': rightPanelService.disableForSingleObj == true}"
+      object-lock tooltip="{{'Ultimate Lock' | translate}}"></li>
+
+        <span background-pattern-controls [loadContent]="true"></span>
+
+  </ul>
+</div>

@@ -1,0 +1,5 @@
+<div loader #loaderComponent></div>
+<common-tabs [subTabsData]="subTabsData" [activeAccordion]="accordianId" *ngIf="!loadContent"></common-tabs>
+<div *ngIf="loaderComponent.showSubLoader === false && loadContent" class="byi-colors-list">
+    <ul class="byie-custom-color" *ngIf="isChildColorComponentLoad" custom-color-picker [type]="'background'" [activeColor]="selectedColor" [hideColorToggle]="hideColorToggleBackground" (colorPickerToggle)="colorPickerToggleBackground($event)" (changeColorEvent)="changeBackgroundColor($event)" (resetBackgroundEvent)="resetBackground()"></ul> 
+</div>

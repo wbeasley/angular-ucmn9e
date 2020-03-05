@@ -1,0 +1,56 @@
+<div class="byic-color" *ngIf="isComponentLoad && type == 'simple'">
+	<button class="byic_color_action" [style.background]="activeColor" (click)="colorPickerToggleHideShow();"></button>
+	<div class="byic-colors-select byic-text-colors" [attr.hidden]="hideColorToggle ? true : null">
+		<ng-container [ngTemplateOutlet]="customColorTabs"></ng-container>
+		<ng-container [ngSwitch]="viewMode">
+			<ul *ngSwitchCase="'preset'">
+				<li *ngFor="let color of colorarr" [class.active]="color.color_code === activeColor"
+					(mousedown)="changeColor(color.color_code);">
+					<span [style.background]="color.color_code" class="color_picker_item"></span>
+				</li>
+			</ul>
+			<color-chrome *ngSwitchCase="'custom'" [color]="activeColor" (onChange)="handleChangeComplete($event)">
+			</color-chrome>
+		</ng-container>
+	</div>
+</div>
+<ng-container *ngIf="isComponentLoad && type == 'background'">
+	<li class="byic_color_action" [style.background]="activeColor" (click)="colorPickerToggleHideShow($event);"></li>
+	<div #colorPickerContainer class="byic-colors-select byic-text-colors" [attr.hidden]="hideColorToggle ? true : null">
+		<ng-container [ngTemplateOutlet]="customColorTabs"></ng-container>
+		<ng-container [ngSwitch]="viewMode">
+			<ul *ngSwitchCase="'preset'">
+				<li *ngFor="let color of colorarr" [class.active]="color.color_code === activeColor">
+					<span [style.background-color]="color.color_code" (click)="changeBackgroundColor(color)"></span>
+				</li>
+			</ul>
+			<color-chrome *ngSwitchCase="'custom'" [color]="activeColor ? activeColor : activeBackGroundColor"
+				(onChange)="handleChangeComplete($event)">
+			</color-chrome>
+		</ng-container>
+	</div>
+	<li class="byi-color-reset" [style.background-color]="'#fff'" (click)="resetBackground()"></li>
+</ng-container>
+<ng-container *ngIf="isComponentLoad && type == 'imageEffect'">
+	<ng-container [ngTemplateOutlet]="customColorTabs"></ng-container>
+	<ng-container [ngSwitch]="viewMode">
+		<ul *ngSwitchCase="'preset'">
+			<li [class.active]="pcolor.color_code === activeColor" *ngFor="let pcolor of colorarr"
+				(mousedown)="changeColor(pcolor.color_code)">
+				<span [style.background]="pcolor.color_code" class="color_picker_item"></span>
+			</li>
+		</ul>
+		<color-chrome *ngSwitchCase="'custom'" [color]="activeColor" (onChange)="handleChangeComplete($event)">
+		</color-chrome>
+	</ng-container>
+</ng-container>
+<ng-template #customColorTabs>
+	<div class="byic-color-tabs" *ngIf="isCustomColorPickerEnable">
+		<div class="byic-color-tab active" [class.active]="viewMode == 'preset'" (click)="changeTab('preset')">
+			<a href="javascript:void(0)">Preset</a>
+		</div>
+		<div class="byic-color-tab" [class.active]="viewMode == 'custom'" (click)="changeTab('custom')">
+			<a href="javascript:void(0)">Custom</a>
+		</div>
+	</div>
+</ng-template>

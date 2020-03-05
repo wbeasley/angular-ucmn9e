@@ -1,0 +1,151 @@
+<!-- loadContent == header , It means it is called from header -->
+<ng-container *ngIf="mainService.isAdmin == true && loadContent =='header'">
+    <a href="javascript:void(0)" (click)="openSaveTemplate()" tooltip="{{'Save Template' | translate}}">
+        <svg class="icon icon-save" viewBox="0 0 30 30">
+            <use xlink:href="assets/img/sprite.svg#icon-save"></use>
+        </svg>
+    </a>
+    <!-- Save Design Modal -->
+    <ng-template #saveTemplateModal>
+        <form #saveTemplateForm="ngForm" [formGroup]="designTemplateForm" (ngSubmit)="saveTemplate()">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{'Save Template' | translate}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="byi-login-tab byi-save-template">
+                    <div class="byi-float-form">
+                        <div class="byi-float-label">
+                            <label>{{'Template Name' | translate}} *</label>
+                            <input type="text" name="templateTitle" formControlName="templateTitle" />
+                            <div *ngIf="saveTemplateForm.submitted && dfref.templateTitle.errors" class="byi-error">
+                                <ng-container *ngIf="dfref.templateTitle.errors.required">
+                                    {{'This field is required' | translate}}
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="byi-float-checkbox">
+                            <label class="byi-checkbox">
+                                <input class="is-pre-loaded" name="isPreLoaded" type="checkbox"
+                                    [(ngModel)]="templateService.isPreLoaded" [ngModelOptions]="{standalone: true}">
+                                {{'Set as Preloaded Template for this product.' | translate}}
+                                <span></span>
+                            </label>
+                        </div>
+                        <div class="byi-float-label">
+                            <label>{{"Choose Category" | translate}} *</label>
+                            <select class="byi-dropdown" multiple name="templatecategory[]" id="templatecategory"
+                                formControlName="templateCategory">
+                                <ng-container *ngFor="let category of templateCategories">
+                                    <option [ngValue]="category.id"
+                                        [ngClass]="category.level == 0 ? 'main-category' : 'sub-category'">
+                                        <span *ngFor="let i of getNumberArray(category.level)">-</span>
+                                        {{category.title}}
+                                    </option>
+                                </ng-container>
+                            </select>
+
+                            <div *ngIf="saveTemplateForm.submitted && dfref.templateCategory.errors" class="byi-error">
+                                <ng-container *ngIf="dfref.templateCategory.errors.required">
+                                    {{'This field is required' | translate}}
+                                </ng-container>
+                            </div>
+                        </div>
+
+                        <div class="byi-float-label">
+                            <label>{{"Status" | translate}} *</label>
+                            <div class="byi-dropdown">
+                                <div class="btn-group" dropdown>
+                                    <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                                       {{selectedStausName}}<span class="caret"></span>
+                                    </button>
+                                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                       <li role="menuitem" *ngFor="let status of statusData" [class.selected]="status.id == selectedStaus" (click)="changeStatus(status)">
+                                          <a class="dropdown-item" href="javascript:void(0)">
+                                             {{status.name}}</a>
+                                       </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="byi-float-label">
+                            <div class="byi-form-action">
+                                <button class="byi-btn" type="submit">{{'Save' | translate}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+</ng-container>
+<ng-container *ngIf="mainService.isAdmin == false && loadContent != 'header'">
+    <common-tabs #commonTabs *ngIf="!loadContent" [subTabsData]="subTabsData" [activeAccordion]="accordianId">
+    </common-tabs>
+    <div class="byi-accord-content" *ngIf="loadContent == true">
+        <div class="byi-top-filters" *ngIf="templateCategories && templateCategories.length > 0">
+            <ng-container *ngIf="mainService.isResponsive">
+                <div class="byi-fullview-toggle">
+                    <button type="button" (click)="showFonts(showAllFonts)">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </ng-container>
+            <div class="byi-dropdown">
+                <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                        {{selectedTemplateCat?.title}}<span class="caret"></span>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                        <li role="menuitem" *ngFor="let templateCat of templateCategories"
+                            [ngClass]="templateCat.level == 0 ? 'main-category' : 'sub-category'"
+                            [class.selected]="templateCat.id === selectedTemplateCat.id"
+                            (click)="changeTemplateCat(templateCat)">
+                            <a class="dropdown-item" href="javascript:void(0)">
+                                <span *ngFor="let i of getNumberArray(templateCat.level)">-</span>
+                                {{templateCat.title}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="byi-search">
+                <input class="byi-input" name="searchText" [(ngModel)]="designSearchText" (keyup)="searchTemplate($event)"
+                    placeholder="{{'Search Template' | translate}}" type="text">
+                <button class="byi-search-btn">
+                    <svg class="icon icon-search" viewBox="0 0 50 50">
+                        <use xlink:href="assets/img/sprite.svg#icon-search"></use>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="byi-norecord" *ngIf="loaderComponent.showSubLoader === false && templates && templates.length == 0">
+            {{'No Templates Found' | translate}}
+        </div>
+        <div *ngIf="templates.length > 0" #mainSection class="byi-tab-cats byi-tab-cats-clipart">
+            <ul infiniteScroll [horizontal]="true" [infiniteScrollDistance]="0" [infiniteScrollThrottle]="1000"
+                [scrollWindow]="false" [infiniteScrollDisabled]="!isEnableloadmore || !allowPlaceholderLoader"
+                (scrolled)="loadMoreClipArt()" #scrollToBottom>
+                <li *ngFor="let template of templates"
+                    [attr.hidden]="(showPlaceholder && allowPlaceholderLoader) ? true : null"
+                    (click)='loadTemplate(template)'>
+                    <a [ngClass]="{'image-only': !template.template_title, 'image-with-text': !template.template_title || template.template_title }"
+                        href="javascript:void(0)" title="{{template.template_title}}">
+                        <span><img [src]="template.image_id ? template.image : templateImgUrl+template.designtemplates_id+'/base/'+template.image" /></span>
+                        <label *ngIf="template.template_title">{{template.template_title}}</label>
+                    </a>
+                </li>
+                <li [attr.hidden]="(!showPlaceholder || !allowPlaceholderLoader) ? true : null"
+                    *ngFor="let temp of mainService.customPlaceholderArr" placeholder-loader [loaderHeight]='84'
+                    [loaderWidth]='84'>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div loader #loaderComponent></div>
+</ng-container>

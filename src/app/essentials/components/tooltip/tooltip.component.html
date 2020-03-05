@@ -1,0 +1,36 @@
+<button class="byiu-right-icon" type="button" *ngIf="!introActive && isEnableTooltip == 1" (click)="enableIntro()" tooltip="{{'Help' | translate}}" placement="bottom">
+  <svg class="icon icon-question" viewBox="0 0 30 30">
+    <use xlink:href="assets/img/sprite.svg#icon-question"></use>
+  </svg>
+</button>
+<div class="byi-intro-wrap" [class.active]="toggleIntro" *ngIf="!mainService.isResponsive && introActive && isEnableTooltip == 1">
+  <div class="byi-intro-inner">
+    <div class="byi-intro-title">
+      <h3>How do you want to start?</h3>
+    </div>
+  <div loader #loaderComponent></div>
+    <div class="byi-intro-items">
+      <ng-container *ngFor="let mainTab of tooltipData; let i = index">
+        <ng-container *ngIf="mainTab.first_tooltip != null">
+          <div class="byi-intro-item" *ngIf="mainTab.isAdmin != 0 || mainService.isAdmin == false"
+            (click)="fetchTabData(mainTab.id)">
+            <span class="byi-intro-icon">
+              <svg attr.class="icon icon-{{mainTab.component}}" viewBox="0 0 50 50">
+                <use attr.xlink:href="assets/img/sprite.svg#icon-{{mainTab.component}}"></use>
+              </svg>
+            </span>
+            <p>{{mainTab.label}}</p>
+          </div>
+        </ng-container>
+      </ng-container>
+      <div *ngIf="productTooltipEnable == 1" class="byi-intro-item product-tooltip" (click)="getProduct()">
+        <span class="byi-intro-icon product-tooltip">
+          <svg class="icon icon-productComponent" viewBox="0 0 50 50">
+            <use xlink:href="assets/img/sprite.svg#icon-productComponent"></use>
+          </svg>
+        </span>
+        <p class="product-tooltip">Product</p>
+      </div>
+    </div>
+  </div>
+</div>

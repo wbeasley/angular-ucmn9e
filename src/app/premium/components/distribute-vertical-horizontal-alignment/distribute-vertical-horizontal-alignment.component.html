@@ -1,0 +1,16 @@
+<ng-template #verticalTemplate>
+  <div [innerHtml]="verticalTooltip"></div>
+</ng-template>
+<li (click)="topObjectSpacing()" tooltip="{{'Distribute Vertically (must select 3 or more objects)' | translate}}" container="body" [ngClass]="{'disabled': enableForThreeObjects == true}">
+  <svg class="icon icon-align-vertical" viewBox="0 0 30 30">
+    <use xlink:href="assets/img/sprite.svg#icon-align-vertical"></use>
+  </svg>
+</li>
+<ng-template #horizontalTemplate>
+  <div [innerHtml]="horizontalTooltip"></div>
+</ng-template>
+<li (click)="leftObjectSpacing()" tooltip="{{'Distribute Horizontally (must select 3 or more objects)' | translate}}" container="body" [ngClass]="{'disabled': enableForThreeObjects == true}">
+  <svg class="icon icon-align-horizontal" viewBox="0 0 30 30">
+    <use xlink:href="assets/img/sprite.svg#icon-align-horizontal"></use>
+  </svg>
+</li>

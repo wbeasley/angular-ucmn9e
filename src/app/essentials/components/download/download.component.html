@@ -1,0 +1,7 @@
+<div [attr.hidden]="(mainService.displayDownload) ? null : true">
+	<a href="javascript:void(0)" tooltip="{{'Download' | translate}}">
+		<svg class="icon icon-download" viewBox="0 0 30 30" (click)="onDownloadClick()">
+			<use xlink:href="assets/img/sprite.svg#icon-download"></use>
+		</svg>
+	</a>
+</div>

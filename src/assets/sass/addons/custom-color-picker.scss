@@ -1,0 +1,68 @@
+.byic-color-tabs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: -5px -5px 5px -5px;
+  .byic-color-tab {
+    position: relative;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: $byi-border-color;
+    }
+    a {
+      display: block;
+      min-height: auto;
+      position: relative;
+      font-size: 13px;
+      line-height: 20px;
+      text-align: center;
+      cursor: pointer;
+      padding: 8px 0;
+      font-weight: 600;
+      color: $byi-text-color;
+    }
+    &.active {
+      &:after {
+        height: 2px;
+        background-color: $byi-theme;
+      }
+      a {
+        color: $byi-theme;
+      }
+    }
+  }
+}
+
+.byic-colors-select {
+  .chrome-picker {
+    font-family: inherit !important;
+    margin: -5px !important;
+    box-shadow: none !important;
+    border-radius: 4px !important;
+    width: calc(100% + 10px) !important;
+    background: $byi-input-bg !important;
+    .chrome-wrap {
+      display: none !important;
+    }
+  }
+}
+@media screen and (max-width: 1024px) {
+  .byi-colors-list {
+    > .byie-custom-color {
+      overflow: unset;
+    }
+  }
+}

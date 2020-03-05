@@ -1,0 +1,82 @@
+<!-- check if form group object is ready -->
+<ng-container *ngIf="customOptionsService.customOptionFormGroup"
+  [formGroup]="customOptionsService.customOptionFormGroup">
+
+  <!-- Traversal -->
+  <ng-container *ngFor="let customOptionObj of customOptionsService.customOptionsData; let i = index">
+
+    <!-- This section will display input type fields like text, date, datetime, time, file -->
+    <div *ngIf="customOptionsService.typeCheck(customOptionObj.type, 'input')" class="byi-cart-option byi-float-label">
+      <label>{{customOptionObj.title | translate}}{{(customOptionObj.isRequire) ? '*' : ''}}</label>
+      <input [type]="customOptionsService.getInputType(customOptionObj.type)" [id]="customOptionObj.id"
+        [formControlName]="customOptionsService.getControlName(customOptionObj)"
+        (input)="customOptionsService.calcPrice()">
+      <span class="text-danger" *ngIf="isError(customOptionObj)">{{'This field is
+        required' | translate}}</span>
+    </div>
+
+    <!-- As input type file field requires addition operations and validation we need to specify it here -->
+    <div *ngIf="customOptionObj.type == 'file'" class="byi-cart-option byi-float-label">
+      <label>{{customOptionObj.title | translate}}{{(customOptionObj.isRequire) ? '*' : ''}}</label>
+      <input type="file" [id]="customOptionObj.title + '_' + customOptionObj.id"
+        (change)="handleFileUpload(customOptionObj, $event)">
+      <span *ngIf="customOptionObj.fileTypeError" class="text-danger">{{'Invalid File' | translate}}</span>
+    </div>
+
+    <!-- This section will display select fields like dropdown, multiple dropdown -->
+    <div *ngIf="customOptionObj.type == 'drop_down'" class="byi-cart-option">
+      <label>{{customOptionObj.title | translate}}{{(customOptionObj.isRequire) ? '*' : ''}}</label>
+      <div class="byi-select">
+        <select [id]="customOptionObj.id" [formControlName]="customOptionsService.getControlName(customOptionObj)"
+          (change)="customOptionsService.calcPrice()">
+          <option value="">{{'None' | translate}}</option>
+          <option *ngFor="let dropdownObj of customOptionObj.options_values" [value]="dropdownObj.optionTypeId">
+            {{dropdownObj.valueTitle}}</option>
+        </select>
+        <span class="caret"></span>
+      </div>
+      <span class="byi-error" *ngIf="isError(customOptionObj)">{{'This field is
+        required' | translate}}</span>
+    </div>
+
+    <!-- This section will display select fields like dropdown, multiple dropdown -->
+    <div *ngIf="customOptionObj.type == 'multiple'" class="byi-cart-option">
+      <label>{{customOptionObj.title | translate}}{{(customOptionObj.isRequire) ? '*' : ''}}</label>
+      <div class="byi-select">
+        <select [id]="customOptionObj.id" [formControlName]="customOptionsService.getControlName(customOptionObj)"
+          multiple (change)="checkForDropdownValues(customOptionObj, $event)">
+          <option value="">{{'None' | translate}}</option>
+          <option *ngFor="let dropdownObj of customOptionObj.options_values"
+            [id]="customOptionObj.id + '_' + dropdownObj.optionTypeId">
+            {{dropdownObj.valueTitle}}</option>
+        </select>
+      </div>
+      <!-- Error -->
+      <span class="byi-error" *ngIf="isError(customOptionObj)">{{'This field is
+        required' | translate}}</span>
+    </div>
+
+    <!-- This section will display selection boxes like radio button and checkbox -->
+    <div *ngIf="customOptionsService.typeCheck(customOptionObj.type, 'selectionBox')"
+      class="byi-cart-option byi-float-checkbox">      
+      <label>{{'Select ' + customOptionObj.title | translate}}{{(customOptionObj.isRequire) ? '*' : ''}}</label>
+      <ng-container *ngFor="let selectionOptionObj of customOptionObj.options_values">
+        <div class="byi-cr-option">
+          <label class="byi-checkbox">
+            <input [type]='customOptionObj.type' [id]='selectionOptionObj.optionTypeId'
+              [attr.value]='selectionOptionObj.optionTypeId'
+              [name]="customOptionsService.getControlName(customOptionObj)"
+              [formControlName]="customOptionsService.getControlName(customOptionObj)"
+              (change)="setSelectionBoxVal(customOptionObj, $event.target.checked, selectionOptionObj.optionTypeId)"
+              >
+            <span></span>{{selectionOptionObj.valueTitle}}
+          </label>
+        </div>
+      </ng-container>
+
+      <!-- Error -->
+      <span class="byi-error" *ngIf="isError(customOptionObj)">{{'This field is
+        required' | translate}}</span>
+    </div>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,77 @@
+<span dropdown *ngIf="mainService.isAdmin == false && mainService.isApp == false">
+<a href="javascript:void(0)" dropdownToggle (click)="false" tooltip="{{'Share with' | translate}}">
+  <svg class="icon icon-share" viewBox="0 0 30 30">
+    <use xlink:href="assets/img/sprite.svg#icon-share"></use>
+  </svg>
+</a>
+<ul *dropdownMenu class="dropdown-menu social-share">
+  <li title="{{'Facebook' | translate}}">
+      <a class="dropdown-item" href="javascript:void(0)">
+       <svg class="icon icon-facebook" viewBox="0 0 50 50" (click)="Sharing('facebook_share')">
+         <use xlink:href="assets/img/sprite.svg#icon-facebook"></use>
+       </svg>
+      </a>
+  </li>
+  <li title="{{'Twitter' | translate}}">
+      <a class="dropdown-item" href="javascript:void(0)">
+       <svg class="icon icon-twitter" viewBox="0 0 50 50" (click)="Sharing('twitter')">
+         <use xlink:href="assets/img/sprite.svg#icon-twitter"></use>
+       </svg>
+      </a>
+  </li>
+
+  <li title="{{'Pinterest' | translate}}">
+      <a class="dropdown-item" href="javascript:void(0)">
+       <svg class="icon icon-pinterest" viewBox="0 0 50 50" (click)="Sharing('pinterest')">
+         <use xlink:href="assets/img/sprite.svg#icon-pinterest"></use>
+       </svg>
+      </a>
+  </li>
+  <li title="{{'Mail' | translate}}">
+      <a class="dropdown-item" href="javascript:void(0)">
+       <svg class="icon icon-mail" viewBox="0 0 50 50" (click)="openModal()">
+         <use xlink:href="assets/img/sprite.svg#icon-mail"></use>
+       </svg>
+      </a>
+  </li>
+</ul>
+</span>
+
+<!-- Send Email Form Modal -->
+<ng-template #mailModal>
+  <form [formGroup]="sendMailForm" (ngSubmit)="Sharing('send_mail')">
+
+    <!-- Modal header section -->
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">{{'Share Design' | translate}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <!-- Modal body section -->
+    <div class="modal-body">
+      <div class="byi-login-tab">
+        <div class="byi-float-form">
+
+          <!-- Send Email Section -->
+          <div class="byi-float-label">
+            <label>{{'Recipient Email Address' | translate}}</label>
+            <input type="text" name="recipientEmail" [(ngModel)]="recipientEmail" placeholder="{{'Email' | translate}}"
+              formControlName="recipientEmail" [ngClass]="{ 'is-invalid': submitted && mf.recipientEmail.errors }"/>
+            <!-- Send Email Error Message -->
+            <div *ngIf="submitted && mf.recipientEmail.errors" class="byi-error">
+              <ng-container *ngIf="mf.recipientEmail.errors.required">{{'Email is required' | translate}}</ng-container>
+              <ng-container *ngIf="mf.recipientEmail.errors.email">{{'Invalid Email' | translate}}</ng-container>
+            </div>
+          </div>
+          <!-- Button Section -->
+          <div class="byi-form-action">
+            <button class="byi-btn" type="submit">{{'Send Mail' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of modal body -->
+  </form>
+</ng-template>

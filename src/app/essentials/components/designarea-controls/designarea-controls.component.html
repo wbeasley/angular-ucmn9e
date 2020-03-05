@@ -1,0 +1,55 @@
+<ul class="byig-control">
+	<li [ngClass]="{'disabled': disableUndo == true}">
+		<a href="javascript:void(0)" (click)="undo()" tooltip="{{'Undo' | translate}}">
+			<svg class="icon icon-undo" viewBox="0 0 30 30">
+				<use xlink:href="assets/img/sprite.svg#icon-undo"></use>
+			</svg> 
+		</a>
+	</li>
+	<li [ngClass]="{'disabled': disableRedo == true}">
+		<a href="javascript:void(0)" (click)="redo()" tooltip="{{'Redo' | translate}}">
+			<svg class="icon icon-redo" viewBox="0 0 30 30">
+				<use xlink:href="assets/img/sprite.svg#icon-redo"></use>
+			</svg>
+		</a>
+	</li>
+	<li>
+		<span dropdown>
+			<a href="javascript:void(0)" dropdownToggle (click)="false" tooltip="{{'Zoom' | translate}}">
+				<svg class="icon icon-zoom" viewBox="0 0 30 30">
+					<use xlink:href="assets/img/sprite.svg#icon-zoom"></use>
+				</svg>
+			</a>
+			<div *dropdownMenu class="dropdown-menu zoom-control">
+				<label class="zoom-counter">{{ canvasService.zoom }}</label>
+				<input type="range" [(ngModel)]="canvasService.zoom" (input)="changeZoom()" step="0.1" min="-0.5" max="0.5"  class="slider">
+				<a href="javascript:void(0)" class="byi-reset-zoom" (click)="changeZoom(true)" title="{{'Reset Zoom' | translate}}">
+					<svg class="icon icon-reset" viewBox="0 0 30 30">
+						<use xlink:href="assets/img/sprite.svg#icon-reset"></use>
+					</svg>
+				</a>
+			</div>
+		</span>
+	</li>
+	<li>
+		<a href="javascript:void(0)" (click)="resetDesign()" tooltip="{{'Reset' | translate}}">
+			<svg class="icon icon-reset" viewBox="0 0 30 30">
+				<use xlink:href="assets/img/sprite.svg#icon-reset"></use>
+			</svg>
+		</a>
+	</li>
+</ul>
+<div *ngIf="mainService.isResponsive" class="byi-mob-output-action" [class.open]="isToggle">
+	<a class="byi-more-btn" href="javascript:void(0)" (click)="hideFab(); isToggle = !isToggle">
+		<svg class="icon icon-more-btn" viewBox="0 0 30 30">
+			<use xlink:href="assets/img/sprite.svg#icon-more-btn"></use>
+		</svg>
+	</a>
+	<ul class="bta-link">
+		<li preview></li>
+		<li social-media-sharing></li>
+		<li *ngIf="mainService.isAdmin == false" save-design></li>
+		<li design-templates [loadContent]="'header'"></li>
+		<li download></li>
+	</ul>
+</div>

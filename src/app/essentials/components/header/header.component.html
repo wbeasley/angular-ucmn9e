@@ -1,0 +1,51 @@
+<div *ngIf="!mainService.isResponsive" class="byi-header">
+	<div class="byii-left">
+		<div class="byi-brand">
+			<h1>
+				<a href="javascript:void(0)" (click)="redirectHomePage(homePageLink)">
+					<img src="{{logoSrc}}" alt="{{logoAlt}}" tooltip="{{logoAlt}}">
+				</a>
+			</h1>
+		</div>
+		<div products class="byi-products"></div>
+	</div>
+	<div class="byi-output-action">
+		<ul class="bta-link">			
+			<li preview></li>
+			<li social-media-sharing></li>
+			<li *ngIf="mainService.isAdmin == false" save-design></li>
+			<li design-templates [loadContent]="'header'"></li>
+			<li download [attr.hidden]="(mainService.displayDownload) ? null : true"></li>
+		</ul>
+	</div>
+	<div class="byia-right">
+		<ul>
+			<li product-demo [loadContent]="'pricePage'"></li>
+			<li class="byi-product-intro" intro></li>
+			<li class="byi-customer-info" customer-login></li>
+		</ul>
+	</div>
+</div>
+
+<div *ngIf="mainService.isResponsive" class="byi-header-mob">
+	<div class="byih-left">
+		<div class="byi-brand">
+			<h1>
+				<a href="javascript:void(0)" (click)="redirectHomePage(homePageLink)">
+					<img src="{{logoSrc}}" alt="{{logoAlt}}" title="{{logoAlt}}">
+				</a>
+			</h1>
+		</div>
+	</div>
+	<div class="byi-products-mob">
+		<div products class="byi-products-list"></div>
+	</div>
+	<div class="byih-right">
+		<ul>
+			<li class="byi-customer-info" customer-login></li>
+			<li class="byi-top-cart">
+				<cart></cart>
+			</li>
+		</ul>
+	</div>
+</div>

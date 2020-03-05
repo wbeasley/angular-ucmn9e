@@ -1,0 +1,25 @@
+<div class="byi-image-sides"  *ngIf="mainService.loadedProductData && mainService.loadedProductData.isImageThumnailEnable  && canvasService.allImages.length > 1">
+	<div image-slider [canvasImages]="canvasService.allImages" [activeSlide]="activeImageId" (changeSlider)="changeImageSider($event)"></div>
+</div>
+<div class="total-sides"  *ngIf="mainService.loadedProductData && !mainService.loadedProductData.isImageThumnailEnable && canvasService.allImages.length > 1">
+	<div class="total-sides-mob">
+		<button container="body" class="byi-side-btn byi-prev-side" *ngIf="enablePrev" (click)="changeNextPrevSide('prev')" tooltip="{{'Previous Side' | translate}}">
+			<span>
+				<svg class="icon icon-side-prev" viewBox="0 0 50 50">
+					<use xlink:href="assets/img/sprite.svg#icon-side-prev"></use>
+				</svg>
+			</span>
+		</button>
+		<ul>
+			<li *ngFor="let image of canvasService.allImages;let i=index;" [ngClass]="{active: activeImageId == image.image_id}" id="side_{{i+1}}"
+			(click)="changeImageSide(image.image_id,i)"><span></span></li>
+		</ul>
+		<button container="body" class="byi-side-btn byi-next-side" *ngIf="enableNext" (click)="changeNextPrevSide('next')" tooltip="{{'Next Side' | translate}}">
+			<span>
+				<svg class="icon icon-side-next" viewBox="0 0 50 50">
+					<use xlink:href="assets/img/sprite.svg#icon-side-next"></use>
+				</svg>
+			</span>
+		</button>
+	</div>
+</div>

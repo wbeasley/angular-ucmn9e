@@ -1,0 +1,10 @@
+<li (click)="selectDeselectAll('select')" [ngClass]="{'disabled': disableForSelectAll == true}">
+  <svg class="icon icon-t-group" viewBox="0 0 30 30" tooltip="{{'Select All' | translate}}">
+    <use xlink:href="assets/img/sprite.svg#icon-t-group"></use>
+  </svg>
+</li>
+<li (click)="selectDeselectAll('deselect')" [ngClass]="{'disabled': disableForSelectAll == true}">
+  <svg class="icon icon-t-ungroup" viewBox="0 0 30 30" tooltip="{{'Deselect All' | translate}}">
+    <use xlink:href="assets/img/sprite.svg#icon-t-ungroup"></use>
+  </svg>
+</li>

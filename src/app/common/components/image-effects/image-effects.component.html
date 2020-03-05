@@ -1,0 +1,121 @@
+<accordion-group [isOpen]="openAccordian" class="byi-accord" *ngIf="!mainService.isResponsive && !isSvgColorsDisplay" [hidden]="componentHide">
+   <button class="byi-accordion-title" accordion-heading>
+      <span>{{'Image Filters' | translate}}</span>
+   </button>
+   <div class="byi-accord-content">
+      <ng-container [ngTemplateOutlet]="imageFilterRef"></ng-container>
+   </div>
+</accordion-group>
+
+<accordion-group [isOpen]="openAccordianEffect" class="byi-accord" *ngIf="!mainService.isResponsive" [hidden]="componentHide">
+   <button class="byi-accordion-title" accordion-heading>
+      <span>{{'Image Effects' | translate}}</span>
+   </button>
+   <div class="byi-accord-content">
+      <ng-container [ngTemplateOutlet]="imageEffectsRef"></ng-container>
+   </div>
+</accordion-group>
+
+<tab *ngIf="mainService.isResponsive && tabsService.checkIfExistChild('image-effects') && !isSvgColorsDisplay" [attr.hidden]="componentHide" [customClass]="'isResponsiveTab'">
+   <ng-template tabHeading>
+      <span>{{'Image Filters' | translate}}</span>
+   </ng-template>
+   <ng-container [ngTemplateOutlet]="imageFilterRef"></ng-container>
+</tab>
+
+<tab *ngIf="mainService.isResponsive && tabsService.checkIfExistChild('image-effects')" [attr.hidden]="componentHide" [customClass]="'isResponsiveTab'">
+   <ng-template tabHeading>
+      <span>{{'Image Effects' | translate}}</span>
+   </ng-template>
+   <ng-container [ngTemplateOutlet]="imageEffectsRef"></ng-container>
+</tab>
+
+<ng-template #imageFilterRef>
+   <div loader #loaderComponent></div>
+
+   <!-- For JPG,JPEG,PNG Image -->
+   <div class="byi-tab-cats byi-img-effect" *ngIf="displayEffects"
+      [ngClass]="displayEffects ? '' : 'disabled'">
+      <ul>
+         <ng-container *ngFor="let effect of imageEffects; let i = index">
+            <li *ngIf="effect.is_filter == 1">
+               <a class="image-with-text" [class.selected]="effectArray.indexOf(effect.effect_name) > -1"
+                  href="javascript:void(0)" (click)="changeEffect(effect.effect_name)">
+                  <span><img src="{{effect.effect_image}}"></span>
+                  <label>{{effect.effect_name}}</label>
+               </a>
+               <div class="byi-effect-slider"
+                  *ngIf="effect.slider_value != null && effectArray.indexOf(effect.effect_name) > -1">
+                  <input class="slider" value="effect.slider_value" [(ngModel)]="sliderValue[effect.effect_name]"
+                     (ngModelChange)=changeSlider(effect.effect_name,$event,i) [max]="effect.max" [min]="effect.min"
+                     [step]="effect.step" type="range">
+               </div>
+            </li>
+         </ng-container>
+      </ul>
+   </div>
+   <!-- END For JPG,JPEG,PNG Image -->
+</ng-template>
+
+<ng-template #imageEffectsRef>
+   <div loader #loaderComponent></div>
+
+   <!-- For JPG,JPEG,PNG Image -->
+   <div class="byi-tab-cats byi-img-filters" *ngIf="displayEffects"
+      [ngClass]="displayEffects ? '' : 'disabled'">
+      
+      <!-- For image effects slider -->
+      <div class="byie-option">
+         <div class="byi-range-box byi-range-color byie-count-wrap"  [ngClass]="{'active': selectedResponsiveItem == effect && mainService.isResponsive}" (click)="activeEffect(effect)" *ngFor="let effect of imageEffects; let i = index">
+            <ng-container *ngIf="effect.is_filter == 0">
+               <label>
+                  <svg attr.class="byi-effect-icon icon icon-{{effect.effect_name}}" viewBox="0 0 30 30">
+                     <use attr.xlink:href="assets/img/sprite.svg#icon-{{effect.effect_name}}"></use>
+                  </svg>
+                  <span>{{effect.effect_name}}</span>
+               </label>
+               <div class="byi-range-box-filter">
+                  <div class="byi-rb-input">
+                     <span class="byie-count">{{(100 * (sliderValue[effect.effect_name] - effect.min) / (effect.max - effect.min)).toFixed() }}%</span>
+                     <input type="range" value="effect.slider_value" [(ngModel)]="sliderValue[effect.effect_name]"
+                        (ngModelChange)=changeSlider(effect.effect_name,$event,i) [max]="effect.max" [min]="effect.min"
+                        [step]="effect.step" class="slider">
+                  </div>
+                  <button class="byi-range-reset-link" (click)="resetEffects(effect.effect_name)"
+                     tooltip="{{'Reset' | translate}}">
+                     <svg class="icon icon-reset" viewBox="0 0 30 30">
+                        <use xlink:href="assets/img/sprite.svg#icon-reset"></use>
+                     </svg>
+                  </button>
+               </div>
+            </ng-container>
+         </div>
+      </div>
+      <!-- End For image effects slider -->
+
+   </div>
+   <!-- END For JPG,JPEG,PNG Image -->
+
+   <!-- For SVG Image -->
+   <div class="byie-option" *ngIf="loaderComponent.showSubLoader === false && isSvgColorsDisplay">
+      <div class="byi-colors-list byi-imagecolor-list" #colorContainer>
+         <ul #svgColorContainer id='ul'>
+            <li class="byic_color_action" [style.background]="color" (click)="colorPickerToggle(color, $event);"
+               *ngFor="let color of svgColorArr; let i = index" [id]="'id_' + i">
+            </li>
+         </ul>
+         <div *ngIf="!mainService.isResponsive" id='picker' class="byic-colors-select byic-shadow-colors"
+            [attr.hidden]="hideColorToggle ? true : null" [ngClass]="(isLeft) ? 'open-left' : 'open-right'"
+            #colorPickerContainer>
+            <div custom-color-picker [type]="'imageEffect'" [activeColor]="selectedItem"
+               (changeColorEvent)="setFill($event)"></div>
+         </div>
+         <div *ngIf="mainService.isResponsive" class="byic-colors-select byic-shadow-colors"
+            [attr.hidden]="hideColorToggle ? true : null" [ngClass]="(isLeft) ? 'open-left' : 'open-right'"
+            #colorPickerContainer>
+            <div custom-color-picker [type]="'imageEffect'" [activeColor]="selectedItem" (changeColorEvent)="setFill($event)"></div>
+         </div>
+      </div>
+   </div>
+   <!--END For SVG Image -->
+</ng-template>

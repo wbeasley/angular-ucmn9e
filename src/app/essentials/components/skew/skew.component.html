@@ -1,0 +1,41 @@
+<accordion-group class="byi-accord" *ngIf="!mainService.isResponsive" [hidden]="componentHide">
+	<button class="byi-accordion-title" accordion-heading>
+		<span>{{'Skew' | translate}}</span>
+	</button>
+	<div class="byi-accord-content">
+		<ng-container [ngTemplateOutlet]="skew"></ng-container>
+	</div>
+</accordion-group>
+<tab *ngIf="mainService.isResponsive && tabsService.checkIfExistChild('skew')"  [customClass]="'isResponsiveTab'">
+	<ng-template tabHeading>
+		<span>{{'Skew' | translate}}</span>
+	</ng-template>
+	<ng-container [ngTemplateOutlet]="skew"></ng-container>
+</tab>
+<ng-template #skew>
+	<div class="byie-option">
+		<div class="byi-global-reset">
+			<button (click)="clear()" class="byi-range-reset-link" tooltip="{{'Reset' | translate}}">
+				<svg class="icon icon-reset" viewBox="0 0 30 30">
+					<use xlink:href="assets/img/sprite.svg#icon-reset"></use>
+				</svg>
+			</button>
+		</div>
+		<div class="byi-range-box byie-count-wrap">
+			<label>{{'SkewX' | translate}}</label>
+			<div class="byi-rb-input">
+				<span class="byie-count">{{skewX.toFixed()}}</span>
+				<input type="range" (mousedown)="setPrevValue('skewX', skewX)" [(ngModel)]="skewX" min="0" max="180" step="0.1" (input)="changeSkewX()"
+				class="slider" (change)="stackToUndo('skewX')">
+			</div>
+		</div>
+		<div class="byi-range-box byie-count-wrap">
+			<label>{{'SkewY' | translate}}</label>
+			<div class="byi-rb-input">
+				<span class="byie-count">{{skewY.toFixed()}}</span>
+				<input type="range" (mousedown)="setPrevValue('skewY', skewY)" [(ngModel)]="skewY" min="0" max="180" step="0.1" (input)="changeSkewY()"
+				class="slider" (change)="stackToUndo('skewY')">
+			</div>
+		</div>
+	</div>
+</ng-template>

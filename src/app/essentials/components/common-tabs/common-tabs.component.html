@@ -1,0 +1,54 @@
+<div class="byip-subTabs">
+	<accordion [closeOthers]="true" *ngIf="!mainService.isResponsive" class="byi-accordion">
+		<accordion-group (click)="setAccordion(subTab.id)" class="byi-accord byi-tooltip-{{subTab.component}}" *ngFor="let subTab of subTabsData;" [isOpen]="activeAccordion == subTab.id">
+			<button class="byi-accordion-title btn btn-link btn-block clearfix" accordion-heading>
+				<span>{{subTab.label | translate}}</span>
+			</button>
+			<div class="byi-accord-content">
+				<ng-container [ngTemplateOutlet]="tabs" [ngTemplateOutletContext]="{subTab:subTab}">
+				</ng-container>
+			</div>
+		</accordion-group>
+	</accordion>
+	<tabset *ngIf="mainService.isResponsive" [hidden]="tabsService.showChild">
+		<ng-container *ngFor="let subTab of subTabsData;">
+			<tab [active]="subTab.id == activeAccordion" (selectTab)="selectTab(subTab.id)">
+				<ng-template tabHeading>
+					<span>{{subTab.label + " ok"}}</span>
+				</ng-template>
+				<ng-container [ngTemplateOutlet]="tabs" [ngTemplateOutletContext]="{subTab:subTab}">
+				</ng-container>
+			</tab>
+		</ng-container>
+	</tabset>
+	<ng-template #tabs let-subTab='subTab'>
+		<div class="byi-accord-inner" plain-text *ngIf="subTab.id == 1" [loadContent]="true"></div>
+		<div class="byi-accord-inner" clipart *ngIf="subTab.id == 2" [loadContent]="true"></div>
+		<div class="byi-accord-inner" image-upload *ngIf="subTab.id == 3" [loadContent]="true"></div>
+		<div class="byi-accord-inner" background-color *ngIf="subTab.id == 4" [loadContent]="true"></div>
+		<div class="byi-accord-inner" my-designs *ngIf="subTab.id == 5" [loadContent]="true"></div>
+		<div class="byi-accord-inner" my-templates *ngIf="subTab.id == 5" [loadContent]="true"></div>
+		<div class="byi-accord-inner" name-number *ngIf="subTab.id == 6" [loadContent]="true"></div>
+		<div class="byi-accord-inner" design-templates *ngIf="subTab.id == 7" [loadContent]="true"></div>
+		<div class="byi-accord-inner" background-patterns *ngIf="subTab.id == 8" [loadContent]="true"></div>
+		<div class="byi-accord-inner" quotes *ngIf="subTab.id == 9" [loadContent]="true"></div>
+	</ng-template>
+	<tabset *ngIf="mainService.isResponsive" [hidden]="!tabsService.showChild">
+		<button type="button" class="byi-back-btn" (click)="tabsService.backTab();cdr.detectChanges();"
+			*ngIf="!backArrow">
+			<span></span>
+		</button>
+		<button type="button" class="byi-close-btn" (click)="closeFullView(backArrow)" *ngIf="backArrow">
+			<span></span>
+		</button> 
+		<div class="byie-option-wrap" font></div>
+		<div class="byie-option-wrap" stroke></div>
+		<div class="byie-option-wrap" drop-shadow></div>
+		<div class="byie-option-wrap" image-effects></div>
+		<div class="byie-option-wrap" opacity></div>
+		<!-- <div class="byie-option-wrap" arc></div> -->
+		<div class="byie-option-wrap" skew></div>
+		<div class="byie-option-wrap" object-position></div>
+		<div class="byie-option-wrap" background-pattern-controls></div>
+	</tabset>
+</div>

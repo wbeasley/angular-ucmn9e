@@ -1,0 +1,176 @@
+<button *ngIf="mainService.isAdmin == false && mainService.isApp == false" (click)="openModal()" class="byiu-right-icon"
+  [class.byiu-logout-icon]="mainService.userLoggedIn === true" type="button"
+  tooltip="{{(mainService.userLoggedIn === true) ? 'Logout' : 'Customer Login' | translate}}" placement="bottom">
+  <svg class="icon icon-user" *ngIf="mainService.userLoggedIn === false" viewBox="0 0 30 30">
+    <use xlink:href="assets/img/sprite.svg#icon-user"></use>
+  </svg>
+  <svg class="icon icon-logout" *ngIf="mainService.userLoggedIn === true" viewBox="0 0 30 30">
+    <use xlink:href="assets/img/sprite.svg#icon-logout"></use>
+  </svg>
+</button>
+
+<!-- Login Form Modal -->
+<ng-template #loginModal>
+  <form [formGroup]="loginForm" (ngSubmit)="loginCustomer()">
+
+    <!-- Modal header section -->
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">{{'Customer Login' | translate}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <!-- Modal body section -->
+    <div class="modal-body">
+      <div class="byi-login-tab">
+        <div class="byi-float-form">
+
+          <!-- Login Email Section -->
+          <div class="byi-float-label">
+            <label>{{'Email' | translate}}*</label>
+            <input type="text" name="loginEmail" [(ngModel)]="loginEmail" placeholder="{{'Email' | translate}}"
+              formControlName="loginEmail" [ngClass]="{ 'is-invalid': submitted && lf.loginEmail.errors }" />
+            <!-- Login Email Error Message -->
+            <div *ngIf="submitted && lf.loginEmail.errors" class="byi-error">
+              <ng-container *ngIf="lf.loginEmail.errors.required">{{'Email is required' | translate}}</ng-container>
+              <ng-container *ngIf="lf.loginEmail.errors.email">{{'Invalid Email' | translate}}</ng-container>
+            </div>
+          </div>
+
+          <!-- Login Password Section -->
+          <div class="byi-float-label">
+            <label>{{'Password' | translate}}*</label>
+            <input type="password" name="loginPassword" [(ngModel)]="loginPassword"
+              placeholder="{{'Password' | translate}}" formControlName="loginPassword"
+              [ngClass]="{ 'is-invalid': lf.loginPassword.errors }" />
+
+            <!-- Login Password Error -->
+            <div *ngIf="submitted && lf.loginPassword.errors" class="byi-error">
+              <ng-container *ngIf="lf.loginPassword.errors.required">{{'Password is required' | translate}}
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- Button Section -->
+          <div class="byi-form-action">
+            <button class="byi-btn" type="submit">{{'Login' | translate}}</button>
+            <p class="byifa-link">
+              <a class="register-popup" href="javascript:void(0)"
+                (click)="openModal(true,isSave)">{{'Create An Account' | translate}}</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of modal body -->
+  </form>
+</ng-template>
+
+<!-- Registration Form Modal -->
+<ng-template #registerModal>
+  <form [formGroup]="registerForm" (ngSubmit)="registerCustomer()">
+
+    <!-- Modal header section -->
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">{{'Customer Registration' | translate}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <!-- Modal body section -->
+    <div class="modal-body">
+      <div class="byi-login-tab">
+        <div class="byi-float-form">
+
+          <!-- First Name Section -->
+          <div class="byi-float-label">
+            <label>{{'First Name' | translate}}*</label>
+            <input type="text" name="firstName" [(ngModel)]="firstName" placeholder="{{'First Name' | translate}}"
+              formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && rf.firstName.errors }" />
+            <!-- First Name Error Message -->
+            <div *ngIf="submitted && rf.firstName.errors" class="byi-error">
+              <ng-container *ngIf="rf.firstName.errors.required">{{'First Name is required' | translate}}</ng-container>
+            </div>
+          </div>
+
+          <!-- Last Name Section -->
+          <div class="byi-float-label">
+            <label>{{'Last Name' | translate}}*</label>
+            <input type="text" name="lastName" [(ngModel)]="lastName" placeholder="{{'Last Name' | translate}}"
+              formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && rf.lastName.errors }" />
+
+            <!-- Last Name Error Message -->
+            <div *ngIf="submitted && rf.lastName.errors" class="byi-error">
+              <ng-container *ngIf="rf.lastName.errors.required">{{'Last Name is required' | translate}}</ng-container>
+            </div>
+          </div>
+
+          <!-- Registration Email Section -->
+          <div class="byi-float-label">
+            <label>{{'Email' | translate}}*</label>
+            <input type="text" name="email" [(ngModel)]="email" placeholder="{{'Email' | translate}}"
+              formControlName="email" [ngClass]="{ 'is-invalid': submitted && rf.email.errors }" />
+
+            <!-- Registration Email Error Message -->
+            <div *ngIf="submitted && rf.email.errors" class="byi-error">
+              <ng-container *ngIf="rf.email.errors.required">{{'Email is required' | translate}}</ng-container>
+              <ng-container *ngIf="rf.email.errors.email">{{'Invalid Email' | translate}}</ng-container>
+            </div>
+          </div>
+
+          <!-- Signup for newsletter section -->
+          <div class="byi-float-checkbox">
+            <label class="byi-checkbox">
+              <input name="newsletter" type="checkbox" (click)="isSubscribe = !isSubscribe">
+              <span></span>
+              {{'Sign Up for Newsletter' | translate}}
+            </label>
+          </div>
+
+          <!-- Password Section -->
+          <div class="byi-float-label">
+            <label>{{'Password' | translate}}*</label>
+            <input type="password" name="password" [(ngModel)]="password" placeholder="{{'Password' | translate}}"
+              formControlName="password" [ngClass]="{ 'is-invalid': rf.password.errors }" />
+
+            <!-- Password Error -->
+            <div *ngIf="submitted && rf.password.errors" class="byi-error">
+              <ng-container *ngIf="rf.password.errors.required">{{'Password is required' | translate}}</ng-container>
+              <ng-container *ngIf="rf.password.errors.minlength">
+                {{'Minimum length of this field must be equal or greater than 8 symbols' | translate}}
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- Confirm Password Section -->
+          <div class="byi-float-label">
+            <label>{{'Confirm Password' | translate}}*</label>
+            <input type="password" name="confirmPassword" [(ngModel)]="confirmPassword"
+              placeholder="{{'Confirm Password' | translate}}" formControlName="confirmPassword"
+              [ngClass]="{ 'is-invalid': rf.confirmPassword.errors }" />
+
+            <!-- Confirm Password Error -->
+            <div *ngIf="submitted && rf.confirmPassword.errors" class="byi-error">
+              <ng-container *ngIf="rf.confirmPassword.errors.required">{{'Confirm Password is required' | translate}}
+              </ng-container>
+              <ng-container *ngIf="rf.confirmPassword.errors.mustMatch">
+                {{'Confirm Password must match with password field' | translate}}
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- Button Section -->
+          <div class="byi-form-action">
+            <button class="byi-btn" type="submit">{{'Sign Up' | translate}}</button>
+            <p class="byifa-link">
+              <a href="javascript:void(0)" (click)="openModal(false,isSave)">{{'Back' | translate}}</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Modal header section -->
+  </form>
+</ng-template>

@@ -1,0 +1,32 @@
+<a *ngIf="mainService.isAdmin == false" href="javascript:void(0)" (click)="openSaveDesign()"
+	tooltip="{{'Save Design' | translate}}">
+	<svg class="icon icon-save" viewBox="0 0 30 30">
+		<use xlink:href="assets/img/sprite.svg#icon-save"></use>
+	</svg>
+</a>
+
+<!-- Save Design Modal -->
+<ng-template #saveDesignModal>
+	<form (ngSubmit)="saveDesign()">
+		<div class="modal-header">
+			<h4 class="modal-title pull-left">{{'Save Design' | translate}}</h4>
+			<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<div class="byi-login-tab">
+				<div class="byi-float-form">
+					<div class="byi-float-label">
+						<label>{{'Design Title' | translate}} *</label>
+						<input type="text" name="designTitle" [(ngModel)]="designTitle" />
+						<span class="text-danger" *ngIf="titleHasError()">This is required field</span>
+					</div>
+					<div class="byi-form-action">
+						<button class="byi-btn" type="submit">{{'Save' | translate}}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</ng-template>

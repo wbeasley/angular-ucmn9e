@@ -1,0 +1,63 @@
+<div *ngIf="isEnableLayer" class="byi-layer" id="layers_manager">
+  <button class="byi-btn-layer" (click)="showLayers()" tooltip="{{'Layer' | translate}}" [placement]="left">
+    <svg class="icon icon-layer" viewBox="0 0 50 50">
+      <use xlink:href="assets/img/sprite.svg#icon-layer"></use>
+    </svg>
+  </button>
+  <div id="layers_ul" class="byi-layer-box" [ngClass]="showLayer ? 'open' : ''">
+    <div class="byilb-head">
+      <label class="">{{'Layer' | translate}}</label>
+      <label class="byilb-l-view">{{'View' | translate}}</label>
+      <label class="byilb-l-back">{{'Back' | translate}}</label>
+      <label class="byilb-l-front">{{'Front' | translate}}</label>
+      <label class="byilb-l-lock">{{'Lock' | translate}}</label>
+      <label class="byilb-l-delete">{{'Delete' | translate}}</label>
+    </div>
+    <ul [class.byi-layer-noscroll]="layerArray.length == 1">
+      <li *ngFor="let object of layerArray; let first = first"
+        [ngClass]="((object.id == currentObjId) ? ((object.ultimatelock == true) ? 'active disabled' : 'active') : ((object.ultimatelock == true) ? 'disabled' : '') )">
+        <label class="layer outsideclick" id="layer" (click)="selectThisObject(object)"
+          tooltip="{{'Select Object' | translate}}" placement="{{(first) ? 'bottom' : 'top'}}">
+          <img *ngIf="(object.type != 'text' && object.type != 'textbox')" [src]="object.src" width="30" id="layer" class="layer">
+          <svg *ngIf="(object.type == 'text' || object.type == 'textbox')" viewBox="0 0 50 50" class="icon icon-textComponent outsideclick">
+            <use xlink:href="assets/img/sprite.svg#icon-textComponent"></use>
+          </svg>
+        </label>
+        <label class="byilb-l-view outsideclick" [ngClass]="object.opacity == 0 ? 'active' : ''"
+          (click)="hideShow(object)" tooltip="{{object.opacity == 0 ? 'Show Object' : 'Hide Object' | translate}}"
+          placement="{{(first) ? 'bottom' : 'top'}}">
+          <svg class="icon icon-view-alt outsideclick" viewBox="0 0 30 30">
+            <use xlink:href="assets/img/sprite.svg#icon-view-alt"></use>
+          </svg>
+        </label>
+        <label class="byilb-l-back outsideclick" id="back" (click)="canvasService.ObjectLayer('backward',object)"
+          tooltip="{{'Send Backward' | translate}}" placement="{{(first) ? 'bottom' : 'top'}}"
+          [ngClass]="{'disabled': object.disableSendToBack}">
+          <svg class="icon icon-layer-down outsideclick" id="front" viewBox="0 0 30 30">
+            <use xlink:href="assets/img/sprite.svg#icon-layer-bottom" id="front"></use>
+          </svg>
+        </label>
+        <label class="byilb-l-front outsideclick" id="front" (click)="canvasService.ObjectLayer('forward',object)"
+          tooltip="{{'Bring Forward' | translate}}" placement="{{(first) ? 'bottom' : 'top'}}"
+          [ngClass]="{'disabled': object.disableBringToFront}">
+          <svg class="icon icon-layer-top outsideclick" id="back" viewBox="0 0 30 30">
+            <use xlink:href="assets/img/sprite.svg#icon-layer-top" id="back"></use>
+          </svg>
+        </label>
+        <label class="byilb-l-lock outsideclick" [ngClass]="(object.selectable == false) ? 'active' : ''" id="lock"
+          (click)="lockObject(object)" placement="{{(first) ? 'bottom' : 'top'}}"
+          tooltip="{{(object.selectable == false) ? 'Unlock Object' : 'Lock Object' | translate}}">
+          <svg class="icon icon-t-lock outsideclick" id="lock" viewBox="0 0 30 30">
+            <use xlink:href="assets/img/sprite.svg#icon-t-lock" id="lock"></use>
+          </svg>
+        </label>
+        <label class="byilb-l-delete outsideclick" id="delete" (click)="deleteObj(object)"
+          tooltip="{{'Delete Object' | translate}}" placement="{{(first) ? 'bottom' : 'top'}}">
+          <svg class="icon icon-t-delete outsideclick" id="delete" viewBox="0 0 30 30">
+            <use xlink:href="assets/img/sprite.svg#icon-t-delete" id="delete"></use>
+          </svg>
+        </label>
+      </li>
+    </ul>
+  </div>
+</div>

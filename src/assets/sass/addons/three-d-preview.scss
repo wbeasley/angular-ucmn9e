@@ -1,0 +1,70 @@
+.byi-header {
+  z-index: 13;
+}
+.byi-3dpreview-wrap {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  opacity: 0;
+  z-index: 9999;
+  visibility: hidden;
+  background-color: rgba($byi-dark, 0.5);
+  transition: 0.35s ease opacity;
+  &.active {
+    visibility: visible;
+    opacity: 1;
+    .byi-3dpreview-inner {
+        transform: translateX(0);
+    }
+  }
+  .byi-3dpreview-inner {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 850px;
+    max-width: 100%;
+    transform: translateX(100%);
+    transition: 0.35s ease all;
+    background-color: $byi-main-bg;
+    box-shadow: -2px 0 15px -11px $byi-dark;
+  }
+  .byi-3dpreview-header {
+    padding: 15px 42px 15px 15px;
+    text-align: left;
+    position: relative;
+    z-index: 3;
+    border-bottom: 1px solid $byi-border-color;
+    h2 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 13px;
+      color: $byi-theme;
+    }
+  }
+  .byi-close-btn {
+    position: absolute;
+    top: 9px;
+    right: 10px;
+    cursor: pointer;
+    z-index: 4;
+  }
+  .byi-3d-canvas {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+    }
+  }
+}

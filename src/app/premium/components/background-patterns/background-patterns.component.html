@@ -1,0 +1,70 @@
+<common-tabs [subTabsData]="subTabsData" [activeAccordion]="accordianId" *ngIf="!loadContent"></common-tabs>
+<div loader #subtabLoader></div>
+<div class="byi-accord-content" *ngIf="loadContent">
+	<div class="byi-top-filters">
+		<ng-container *ngIf="mainService.isResponsive" [attr.hidden]="componentHide">
+			<div class="byi-fullview-toggle">
+				<button type="button" (click)="showFonts(showAllFonts)">
+					<span></span>
+					<span></span>
+					<span></span>
+				</button>
+			</div>
+		</ng-container>
+	<div class="byi-dropdown" *ngIf="patternCategories.length > 0">
+		<div class="btn-group" dropdown>
+			<button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+				{{SelectedPatternCat?.name}}<span class="caret"></span>
+			</button>
+			<ul *dropdownMenu class="dropdown-menu" role="menu">
+				<li role="menuitem" *ngFor="let patternCat of patternCategories"
+				[ngClass]="patternCat.level == 0 ? 'main-product-category' : 'sub-product-category'"
+				[class.selected]="patternCat.id === SelectedPatternCat.id" (click)="changePatternCat(patternCat)">
+				<a class="dropdown-item" href="javascript:void(0)">
+					<span *ngFor="let i of getNumberArray(patternCat.level)">-</span>
+				{{patternCat.name}}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="byi-search" *ngIf="patternCategories.length > 0">
+		<input class="byi-input" name="searchText" (input)="searchPattern($event)" placeholder="{{'Search Pattern' | translate}}"
+		type="text">
+		<button class="byi-search-btn">
+			<svg class="icon icon-search" viewBox="0 0 50 50">
+				<use xlink:href="assets/img/sprite.svg#icon-search"></use>
+			</svg>
+		</button>
+	</div>
+</div>
+<div class="byi-norecord"
+*ngIf="loaderComponent.showSubLoader === false && patternMedia && patternMedia.length == 0">
+{{'No Patterns Found' | translate}}
+</div>
+<div *ngIf="patternMedia.length > 0" #mainSection class="byi-tab-cats byi-tab-cats-clipart">
+	<ul infiniteScroll [horizontal]="true" [infiniteScrollDistance]="0" [infiniteScrollThrottle]="1000"
+	[scrollWindow]="false" [infiniteScrollDisabled]="!isEnableloadmore || !allowPlaceholderLoader"
+	(scrolled)="loadMorePattern()" #scrollToBottom>
+	<li *ngFor="let media of patternMedia"
+	[attr.hidden]="(showPlaceholder && allowPlaceholderLoader) ? true : null">
+	<a [ngClass]="{'image-with-text': !media.label && media.price}"
+	href="javascript:void(0)" (click)="addPatternToCanvas(media.medium_url)">
+	<span><img [src]="media.image_path" [attr.tab]="'clipart'" [attr.dragprice]="media.price" [attr.url]="media.medium_url" class="byidraggable"  (error)="getDefaultImage(media)"></span>
+	<label *ngIf="media.label">{{media.label}}</label>
+	
+</a>
+</li>
+<li [attr.hidden]="(!showPlaceholder || !allowPlaceholderLoader) ? true : null"
+*ngFor="let temp of mainService.customPlaceholderArr" placeholder-loader [loaderHeight]='84'
+[loaderWidth]='84'></li>
+</ul>
+<div *ngIf="loadContent && isEnableloadmore && (!mainService.isResponsive || (mainService.isResponsive && showAllFonts))" class="loadmore-action">
+	<input class="loadmore-btn" type="button" value="{{'Load More' | translate}}" (click)="loadMorePattern()">
+</div>
+<div class="byi-upload-pattern" *ngIf="loadContent" >
+	<input class="byi-btn byi-btn-xs" type="button" value="{{'Upload & Make It Pattern' | translate}}" (click)="redirectToUpload()">
+</div>
+</div>
+</div>
+<div loader #loaderComponent></div>

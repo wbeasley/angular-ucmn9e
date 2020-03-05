@@ -1,0 +1,42 @@
+<div class="byi-output">
+	<div class="byi-design">
+		<div class="img-side-area">
+			<span>{{this.imageSideTitle | translate}}</span>
+		</div>
+		<div class="print-area-warning" [hidden]="mainService.nameNumber || mainService.isGenerateSVGDesign" [class.show]="displayWarning" *ngIf="displayWarning">
+			<span>{{print_warning | translate}}</span>
+		</div>
+		<div class="low-resolution-warning" [hidden]="mainService.nameNumber || mainService.isGenerateSVGDesign" [class.show]="lowresolution" *ngIf="lowresolution">
+			<span>{{resolution_warning | translate}}</span>
+		</div>
+		<layer-management [hidden]="mainService.nameNumber || mainService.isGenerateSVGDesign"></layer-management>		
+		<product-options [hidden]="mainService.nameNumber || mainService.isGenerateSVGDesign" *ngIf="productType == 'configurable'" [selected_super_attributes]="selected_super_attributes">
+		</product-options>
+		<ng-container *ngIf="allImageDimensions != undefined">
+			<div class="byi-svg-editor-box"
+				[ngStyle]="{'height':calCulateDragContainer('height')+'px','width':calCulateDragContainer('width')+'px'}"
+				[ngClass]="{'dragscroll': activeDrag }">
+				<ng-container *ngFor="let currentImageDimensions of allImageDimensions">
+					<div id="productdesigner-image-{{currentImageDimensions.image_id}}"
+						class="product-designer-main-content"
+						[ngStyle]="{'background': 'url(' + currentImageDimensions.url + ') center center / 100% no-repeat','height':calCulateImageHeightWidth(currentImageDimensions,'height')+'px','width':calCulateImageHeightWidth(currentImageDimensions,'width')+'px'}"
+						[ngClass]="{active: currentImageDimensions.image_id === activeImageId}">
+
+						<div class="design-container" id="designArea-{{dim.designareaId}}"
+							attr.selection_area="@{{dim.image_id}}&{{dim.designareaId}}"
+							attr.designareaid="{{dim.designareaId}}" *ngFor="let dim of currentImageDimensions.dim"
+							[ngStyle]="{'height':calCulateDimWithCanvasRatio(dim,'height')+ 'px','width':calCulateDimWithCanvasRatio(dim,'width')+ 'px','margin-left':calCulateDimWithCanvasRatio(dim,'left')+ 'px','margin-top':calCulateDimWithCanvasRatio(dim,'top')+ 'px','position':'absolute'}"
+							(click)="setActiveCanvas(dim.image_id , dim.designareaId)">
+							<canvas id="canvas-{{dim.designareaId}}" style="z-index: 9999"></canvas>
+						</div>
+					</div>
+				</ng-container>
+				<context-menu></context-menu>
+				<div drag-drop></div>
+			</div>
+		</ng-container>
+	</div>
+	<image-sides *ngIf="allImageIds != undefined" [activeImageId]="activeImageId">
+	</image-sides>
+</div>
+<div object-alignment-position></div>

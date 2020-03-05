@@ -1,0 +1,92 @@
+<ng-container *ngIf="!loadContent">
+	<accordion-group class="byi-accord" *ngIf="!mainService.isResponsive" [isOpen]="openAccordian" [hidden]="componentHide">
+		<button class="byi-accordion-title" accordion-heading>
+			<span>{{'Patterns' | translate}}</span> 
+		</button>
+		<div class="byi-accord-content">
+			<ng-container [ngTemplateOutlet]="patternTemplate"></ng-container>
+		</div>
+	</accordion-group>
+	<tab *ngIf="mainService.isResponsive && tabsService.checkIfExistChild('pattern-controls')"
+		[attr.hidden]="componentHide" [customClass]="'isResponsiveTab'">
+		<ng-template tabHeading>
+			<span>{{'Patterns' | translate}}</span>
+		</ng-template>
+		<ng-container [ngTemplateOutlet]="patternTemplate"></ng-container>
+	</tab>
+	<ng-template #patternTemplate>
+		<div class="byie-option background-pattern">
+			<div class="byi-global-reset byi-global-reset-wrapper">
+				<button class="byi-range-reset-link byi-remove-pattern" (click)="changePattern('remove','')"
+					tooltip="{{'Remove Pattern' | translate}}">
+					<svg class="icon icon-t-delete" viewBox="0 0 30 30">
+						<use xlink:href="assets/img/sprite.svg#icon-t-delete"></use>
+					</svg>
+				</button>
+				<button class="byi-range-reset-link" (click)="resetPattern(true)" tooltip="{{'Reset' | translate}}">
+					<svg class="icon icon-reset" viewBox="0 0 30 30">
+						<use xlink:href="assets/img/sprite.svg#icon-reset"></use>
+					</svg>
+				</button>
+			</div>
+			<div class="byi-select byi-select-pattern-repeat">
+				<select (change)="changePattern('patternRepeat','')" [(ngModel)]="patternRepeat">
+					<option value="repeat">{{'Repeat pattern' | translate}}</option>
+					<option value="no-repeat">{{'No Repeat' | translate}}</option>
+					<option value="repeat-x">{{'Repeat X pattern' | translate}}</option>
+					<option value="repeat-y">{{'Repeat Y pattern' | translate}}</option>
+				</select>
+				<span class="caret"></span>
+			</div>
+			<div class="byi-range-box byie-count-wrap">
+				<label>{{'Pattern Size' | translate}}</label>
+				<div class="byi-rb-input">
+					<span class="byie-count">{{patternWidth.toFixed(0)}}</span>
+					<input type="range" [min]="minWidth" [max]="maxWidth" (input)="changePattern('patternWidth','')"
+						[(ngModel)]="patternWidth">
+				</div>
+			</div>
+			<div class="byi-range-box byie-count-wrap">
+				<label>{{'Pattern Offset (X)' | translate}}</label>
+				<div class="byi-rb-input">
+					<span class="byie-count">{{patternXOffset.toFixed(0)}}</span>
+					<input type="range" [min]="minXOffset" [max]="maxXOffset" (input)="changePattern('patternXOffset','')"
+						[(ngModel)]="patternXOffset">
+				</div>
+			</div>
+			<div class="byi-range-box byie-count-wrap">
+				<label>{{'Pattern Offset (Y)' | translate}}</label>
+				<div class="byi-rb-input">
+					<span class="byie-count">{{patternYOffset.toFixed(0)}}</span>
+					<input type="range" [min]="minYOffset" [max]="maxYOffset" (input)="changePattern('patternYOffset','')"
+						[(ngModel)]="patternYOffset">
+				</div>
+			</div>
+			<!-- <div class="byi-range-box byie-count-wrap">
+				<label>{{'Pattern Angle' | translate}}</label>
+				<div class="byi-rb-input">
+					<span class="byie-count">{{patternAngle.toFixed(0)}}</span>
+					<input type="range" min="-90" max="90" (input)="changePattern('patternAngle','')"
+						[(ngModel)]="patternAngle">
+				</div>
+			</div> -->
+			<div class="byi-range-box byie-count-wrap">
+				<label>{{'Pattern Padding' | translate}}</label>
+				<div class="byi-rb-input">
+					<span class="byie-count">{{patternPadding.toFixed(0)}}</span>
+					<input type="range" min="-50" max="50" (input)="changePattern('patternPadding','')"
+						[(ngModel)]="patternPadding">
+				</div>
+			</div>
+		</div>
+	</ng-template>
+</ng-container>
+<ng-container *ngIf="loadContent">
+	<li [class.disabled]="!enableMakePattern"  tooltip="{{'Make it Pattern' | translate}}"
+	container="body">
+		<svg class="icon icon-make-pattern" [ngClass]="{'disabled': enableMakePattern != true}" (click)="makePattern()"
+			viewBox="0 0 30 30">
+			<use xlink:href="assets/img/sprite.svg#icon-make-pattern"></use>
+		</svg>
+	</li>
+</ng-container>

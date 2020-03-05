@@ -1,0 +1,26 @@
+<div photo-calendar *ngIf="mainService.loadedProductData && mainService.loadedProductData.designerProductType"></div>
+<ngu-carousel #myCarousel [inputs]="carouselConfig" [dataSource]="canvasImages"  (onMove)="onmoveFn($event)" [hidden]="mainService.isResponsive">
+	<div *nguCarouselDef="let image;let i = index" class="item" [ngClass]="{active: activeSlide == image.image_id}"  (click)="changeSlide(image.image_id, i)" >
+		<div class="tile" style="position: relative;">
+			<img [src]="image.url" class="product-thumbnail" title="{{image.image_title}}">
+			<ng-container *ngFor="let item of image.dim;let j = index">
+				<img *ngIf="image.dataurl && image.dataurl[item.designareaId]" [src]="image.dataurl[item.designareaId]" [attr.data-designarea]="item.designareaId" class="dataurl" [ngStyle]="{'position': 'absolute','left' : image.positionleft[item.designareaId],'top' : image.positiontop[item.designareaId],'margin' : image.margin[item.designareaId]}">
+			</ng-container>
+		</div>
+	</div>
+	<button *ngIf="enableNext" NguCarouselNext class="byi__arrow byi__arrow--left">&gt;</button>
+	<button *ngIf="enablePrev"  NguCarouselPrev class="byi__arrow byi__arrow--right">&lt;</button>
+</ngu-carousel>
+
+<ngu-carousel #myCarouselResponsive [inputs]="carouselConfigMobile" [dataSource]="canvasImages"  (onMove)="onmoveFnResponsive($event)" [hidden]="!mainService.isResponsive">
+	<div *nguCarouselDef="let image;let i = index" class="item" [ngClass]="{active: activeSlide == image.image_id}"  (click)="changeSlide(image.image_id, i)" >
+		<div class="tile" style="position: relative;">
+			<img [src]="image.url" class="product-thumbnail-mobile" title="{{image.image_title}}">
+			<ng-container *ngFor="let item of image.dim;let j = index">
+				<img *ngIf="image.dataurl && image.dataurl[item.designareaId]" [src]="image.dataurl[item.designareaId]" [attr.data-designarea]="item.designareaId" class="dataurl" [ngStyle]="{'position': 'absolute','left' : 0,'top' : image.positiontop[item.designareaId],'margin' : image.margin[item.designareaId]}">
+			</ng-container>
+		</div>
+	</div>
+	<button *ngIf="enableNextResponsive" NguCarouselNext class="byi__arrow byi__arrow--left">&gt;</button>
+	<button *ngIf="enablePrevResponsive"  NguCarouselPrev class="byi__arrow byi__arrow--right">&lt;</button>
+</ngu-carousel>

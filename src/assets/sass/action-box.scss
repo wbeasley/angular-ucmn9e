@@ -1,0 +1,169 @@
+/* layer Box
+-------------*/
+.byi-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  margin: 0 0 10px;
+
+  .byi-btn-layer {
+    width: 32px;
+    height: 32px;
+    display: block;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    background-color: transparent;
+    svg {
+      fill: $byi-lighticon;
+    }
+  }
+}
+.byi-layer-box {
+  width: 280px;
+  border: 1px solid $byi-theme;
+  position: absolute;
+  left: 39px;
+  top: 0;
+  opacity: 0;
+  visibility: hidden;
+  border-radius: 4px;
+  transform: translateX(5px);
+  transition: transform 0.35s ease, opacity 0.35s ease, visibility 0.35s ease;
+  background: $byi-main-bg;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  }
+  &:after {
+    content: "";
+    border-right: 6px solid $byi-theme;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    float: left;
+    position: absolute;
+    left: -7px;
+    top: 5px;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-height: 160px;
+    overflow-y: auto;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    &.byi-layer-noscroll {
+      overflow-y: unset;
+    }
+    @media screen and (max-height: 770px) {
+      max-height: 100px;
+    }
+  }
+  li {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-top: 0;
+    overflow: hidden;
+    list-style-type: none;
+    &.active {
+      background-color: $byi-panel-bg;
+    }
+    &:last-child {
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+    &.disabled {
+      label {
+        pointer-events: none;
+        svg,
+        img {
+          opacity: 0.3;
+        }
+      }
+    }
+  }
+  label {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    height: 32px;
+    cursor: pointer;
+    margin: 0;
+    &.layer {
+      background: darken($byi-panel-bg, 8%);
+      position: relative;
+      img {
+        margin: 4px;
+        max-width: 25px;
+        max-height: 25px;
+      }
+    }
+    &.disabled {
+      pointer-events: none;
+      svg,
+      img {
+        opacity: 0.3;
+      }
+    }
+    .icon {
+      height: 23px;
+      width: 23px;
+      margin: 5px;
+      padding: 2px;
+      fill: $byi-lighticon;
+      &.icon-tabtextComponent {
+        stroke-width: 3px;
+      }
+      &.icon-view-alt {
+        padding: 0;
+      }
+    }
+    &.active {
+      .icon {
+        fill: $byi-theme;
+      }
+    }
+    @media (hover: hover) {
+      &:hover {
+        .icon {
+          fill: $byi-theme;
+        }
+      }
+    }
+  }
+  .byilb-head {
+    background: $byi-theme;
+    padding: 5px 0;
+    border: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    label {
+      -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+      flex-grow: 1;
+      height: auto;
+      text-align: center;
+      display: block;
+      font-size: 10px;
+      color: $byi-light;
+    }
+  }
+}

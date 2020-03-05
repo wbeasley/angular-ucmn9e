@@ -1,0 +1,171 @@
+<ul class="hide-fonts">
+    <li *ngFor="let object of fontService.fontarr">
+        <span [style.font-family]="object.font_label"> </span>
+    </li>
+</ul>
+
+<accordion-group class="byi-accord" *ngIf="!mainService.isResponsive" [isOpen]="openAccordian" [hidden]="componentHide">
+    <button class="byi-accordion-title btn btn-link btn-block clearfix" accordion-heading>
+        <span>{{'Font' | translate}}</span>
+    </button>
+    <div class="byi-accord-content byi-tooltip-font">
+        <div class="byie-option byie-font-dropdown">
+            <div class="byi-fonts" [class.open]="isToggle">
+                <button  type="button" class="byi-button" (click)="isToggleOpen()"
+                    tooltip="{{'Select Font' | translate}}"> <span [style.font-family]="fontService.activeFontFamily?.font_label">{{fontService.activeFontFamily?.font_label}}</span><span
+                        class="caret" ></span></button>
+                <ng-container [ngTemplateOutlet]="fontFamily"></ng-container>
+            </div>
+            <ng-container [ngTemplateOutlet]="colors"></ng-container>
+        </div>
+        <ng-container [ngTemplateOutlet]="fonts"></ng-container>
+
+    </div>
+</accordion-group>
+
+<tab *ngIf="mainService.isResponsive && tabsService.checkIfExistChild('font')" [attr.hidden]="componentHide"  [customClass]="'isResponsiveTab'">
+    <ng-template tabHeading>
+        <span>{{'Font' | translate}}</span>
+    </ng-template>
+    <ng-container [ngTemplateOutlet]="fonts"></ng-container>
+    <ng-container [ngTemplateOutlet]="colors"></ng-container>
+</tab>
+<tab *ngIf="mainService.isResponsive && tabsService.checkIfExistChild('font')" [attr.hidden]="componentHide"  [customClass]="'isResponsiveTab'">
+    <ng-template tabHeading>
+        <span>{{'Font Family' | translate}}</span>
+    </ng-template>
+    <ng-container [ngTemplateOutlet]="fontFamily"></ng-container>
+</tab>
+<ng-template #fontFamily>
+    <ng-container *ngIf="mainService.isResponsive && tabsService.checkIfExistChild('font')"
+        [attr.hidden]="componentHide">
+        <div class="byi-fullview-toggle">
+            <button type="button" (click)="showFonts(showAllFonts,backArrow)">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </ng-container>
+    <div class="byi-fonts-wrap" [class.byi-fonts-wrap-mob]="mainService.isResponsive">
+        <ul #scrollToBottom *ngIf="!mainService.isResponsive">
+            <li tooltip="{{object.font_label}}" role="menuitem" *ngFor="let object of fontService.fontarr"
+                (click)="changeFontFamily(object)"
+                [ngClass]="{'selected': fontService.activeFontFamily.font_label == object.font_label }"
+                class="font-item">
+                <span *ngIf="!object.font_image" [style.font-family]="object.font_label">{{object.font_label}}</span>
+                <img [src]="object.font_image" *ngIf="object.font_image" />
+            </li>
+            <div *ngIf="isEnableloadmore && !mainService.isResponsive" class="loadmore-action font-loadMore">
+                <input class="loadmore-btn" type="button" value="{{'Load More' | translate}}" (click)="loadMoreFont()">
+            </div>
+        </ul>
+        <ul #scrollToBottom *ngIf="mainService.isResponsive" infiniteScroll [horizontal]="true"
+            [infiniteScrollDistance]="0" [infiniteScrollThrottle]="1000" [scrollWindow]="false"
+            (scrolled)="loadMoreFont()" #scrollToBottom
+            [infiniteScrollDisabled]="!isEnableloadmore || !allowPlaceholderLoader">
+            <li tooltip="{{object.font_label}}" role="menuitem" *ngFor="let object of fontService.fontarr"
+                (click)="changeFontFamily(object)"
+                [ngClass]="{'selected': fontService.activeFontFamily.font_label == object.font_label }"
+                class="font-item mobile">
+                <span *ngIf="!object.font_image" [style.font-family]="object.font_label">{{object.font_label}}</span>
+                <img [src]="object.font_image" *ngIf="object.font_image" />
+            </li>
+            <li [attr.hidden]="(!showPlaceholder) ? true : null" *ngFor="let temp of mainService.customPlaceholderArr"
+                placeholder-loader [loaderHeight]='25' [loaderWidth]='100'></li>
+            <div *ngIf="isEnableloadmore && mainService.isResponsive && showAllFonts"
+                class="loadmore-action font-loadMore">
+                <input class="loadmore-btn" type="button" value="{{'Load More' | translate}}" (click)="loadMoreFont()">
+            </div>
+        </ul>
+    </div>
+    <div *ngIf="isEnableloadmore && !mainService.isResponsive && showAllFonts" class="loadmore-action font-loadMore">
+        <input class="loadmore-btn" type="button" value="{{'Load More' | translate}}" (click)="loadMoreFont()">
+    </div>
+</ng-template>
+<ng-template #colors>
+    <div class="byie-custom-color">
+        <div custom-color-picker [type]="'simple'" [activeColor]="selectedColor" [hideColorToggle]="hideColorToggleFont"
+            (colorPickerToggle)="colorPickerToggleFont($event)" (changeColorEvent)="changeFontColor($event)"></div>
+    </div>
+</ng-template>
+<ng-template #fonts>
+    <div class="byie-option byie-font-size">
+        <label>{{'Size' | translate}}</label>
+        <div class="byi-range-box byie-count-wrap">
+            <div class="byi-rb-input">
+                <span class="byie-count">{{fontSize}}</span>
+                <input type="range" [(ngModel)]="fontSize" (input)="changeFontSize()"
+                    (mousedown)="setPrevValue($event.target.value)" (change)="stackToUndo()" step="1" min="12" max="60"
+                    class="slider">
+            </div>
+        </div>
+    </div>
+    <div class="byie-option byie-font-style">
+        <ul class="byie-deco">
+            <li>
+                <button class="byi-i byi-b" (click)="changeFontStyle('bold')"
+                    [ngClass]="{'selected': fontStyleArr.indexOf('bold') >= 0}" tooltip="{{'Bold' | translate}}">
+                    <svg class="icon icon-text-bold" viewBox="0 0 30 30">
+                        <use xlink:href="assets/img/sprite.svg#icon-text-bold"></use>
+                    </svg>
+                </button>
+            </li>
+            <li>
+                <button class="byi-i byi-it" (click)="changeFontStyle('italic')"
+                    [ngClass]="{'selected': fontStyleArr.indexOf('italic') >= 0}" tooltip="{{'Italic' | translate}}">
+                    <svg class="icon icon-text-italic" viewBox="0 0 30 30">
+                        <use xlink:href="assets/img/sprite.svg#icon-text-italic"></use>
+                    </svg>
+                </button>
+            </li>
+            <li>
+                <button class="byi-i byi-u" (click)="changeFontStyle('underline')"
+                    [ngClass]="{'selected': fontStyleArr.indexOf('underline') >= 0}"
+                    tooltip="{{'Underline' | translate}}">
+                    <svg class="icon icon-text-underline" viewBox="0 0 30 30">
+                        <use xlink:href="assets/img/sprite.svg#icon-text-underline"></use>
+                    </svg>
+                </button>
+            </li>
+        </ul>
+        <ul class="byie-deco byie-text-align">
+            <li>
+                <button [class.disabled]="enableForMultiLine" class="byi-i byi-al"
+                    [ngClass]="{'selected': textAlign == 'left' }" (click)="setTextAlign('left')"
+                    tooltip="{{'Left' | translate}}">
+                    <svg class="icon icon-text-aleft" viewBox="0 0 30 30">
+                        <use xlink:href="assets/img/sprite.svg#icon-text-aleft"></use>
+                    </svg>
+                </button>
+            </li>
+            <li>
+                <button class="byi-i byi-ac" [ngClass]="{'selected': textAlign == 'center' }"
+                    (click)="setTextAlign('center')" [class.disabled]="enableForMultiLine"
+                    tooltip="{{'Center' | translate}}">
+                    <svg class="icon icon-text-acenter" viewBox="0 0 30 30">
+                        <use xlink:href="assets/img/sprite.svg#icon-text-acenter"></use>
+                    </svg>
+                </button>
+            </li>
+            <li>
+                <button class="byi-i byi-ar" [ngClass]="{'selected': textAlign == 'right' }"
+                    (click)="setTextAlign('right')" [class.disabled]="enableForMultiLine"
+                    tooltip="{{'Right' | translate}}">
+                    <svg class="icon icon-text-aright" viewBox="0 0 30 30">
+                        <use xlink:href="assets/img/sprite.svg#icon-text-aright"></use>
+                    </svg>
+                </button>
+            </li>
+            <li>
+                <button class="byi-i byi-aj" [ngClass]="{'selected': textAlign == 'justify' }"
+                    (click)="setTextAlign('justify')" [class.disabled]="enableForMultiLine"
+                    tooltip="{{'Justify' | translate}}">
+                    <svg class="icon icon-text-ajustify" viewBox="0 0 30 30">
+                        <use xlink:href="assets/img/sprite.svg#icon-text-ajustify"></use>
+                    </svg>
+                </button>
+            </li>
+        </ul>
+    </div>
+</ng-template>

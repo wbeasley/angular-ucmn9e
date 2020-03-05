@@ -1,0 +1,31 @@
+<accordion-group class="byi-accord" *ngIf="!mainService.isResponsive" [hidden]="componentHide">
+	<button class="byi-accordion-title" accordion-heading>
+		<span>{{'Opacity' | translate}}</span>
+	</button>
+	<div class="byi-accord-content">
+		<ng-container [ngTemplateOutlet]="opacityTemplate"></ng-container>
+	</div>
+</accordion-group>
+<tab *ngIf="mainService.isResponsive && tabsService.checkIfExistChild('opacity')"  [customClass]="'isResponsiveTab'">
+	<ng-template tabHeading>
+		<span>{{'Opacity' | translate}}</span>
+	</ng-template>
+	<ng-container [ngTemplateOutlet]="opacityTemplate"></ng-container>
+</tab>
+<ng-template #opacityTemplate>
+	<div class="byie-option">
+		<div class="byi-range-box byi-range-color byie-count-wrap">
+			<div class="byi-rb-input">
+				<span class="byie-count">{{(opacity/10).toFixed(1)}}</span>
+				<input type="range" [(ngModel)]="opacity" min="0" max="10" step="0.1"
+					(mousedown)="setPrevValue($event.target.value)" (input)="changeOpacity()" (change)="stackToUndo()"
+					class="slider">
+			</div>
+			<button class="byi-range-reset-link" (click)="resetOpacity()" tooltip="{{'Reset' | translate}}">
+				<svg class="icon icon-reset" viewBox="0 0 30 30">
+					<use xlink:href="assets/img/sprite.svg#icon-reset"></use>
+				</svg>
+			</button>
+		</div>
+	</div>
+</ng-template>

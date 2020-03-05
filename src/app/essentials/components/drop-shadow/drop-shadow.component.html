@@ -1,0 +1,48 @@
+<accordion-group class="byi-accord" *ngIf="!mainService.isResponsive" [hidden]="componentHide">
+	<button class="byi-accordion-title" accordion-heading>
+		<span>{{'Drop Shadow' | translate}}</span>
+	</button>
+	<div class="byi-accord-content">
+		<ng-container [ngTemplateOutlet]="dropShadow"></ng-container>
+	</div>
+</accordion-group>
+<tab *ngIf="mainService.isResponsive && tabsService.checkIfExistChild('drop-shadow')" [attr.hidden]="componentHide"  [customClass]="'isResponsiveTab'">
+	<ng-template tabHeading>
+		<span>{{'Drop Shadow' | translate}}</span>
+	</ng-template>
+	<ng-container [ngTemplateOutlet]="dropShadow"></ng-container>
+</tab>
+<ng-template #dropShadow>
+	<div class="byie-option">
+		<div class="byi-global-reset">
+			<div class="byie-custom-color">
+				<div *ngIf="selectedColor" [type]="'simple'" custom-color-picker [activeColor]="selectedColor"
+					[hideColorToggle]="hideColorToggleShadow" (colorPickerToggle)="colorPickerToggleShadow($event)"
+					(changeColorEvent)="changeColorShadow($event)"></div>
+			</div>
+			<button class="byi-range-reset-link" (click)="resetShadow()" tooltip="{{'Reset' | translate}}">
+				<svg class="icon icon-reset" viewBox="0 0 30 30">
+					<use xlink:href="assets/img/sprite.svg#icon-reset"></use>
+				</svg>
+			</button>
+		</div>
+		<div class="byi-range-box byie-count-wrap">
+			<label>{{'X-offset' | translate}}</label>
+			<div class="byi-rb-input">
+				<span class="byie-count">{{offsetX}}</span>
+				<input type="range" [(ngModel)]="offsetX" min="-25" max="25" step="1" value='0' (input)="changeShadow()"
+					(mousedown)="setPrevValue('offsetX', offsetX)" class="slider" (change)="stackToUndo('offsetX')"
+					class="slider">
+			</div>
+		</div>
+		<div class="byi-range-box byie-count-wrap">
+			<label>{{'Y-offset' | translate}}</label>
+			<div class="byi-rb-input">
+				<span class="byie-count">{{offsetY}}</span>
+				<input type="range" [(ngModel)]="offsetY" min="-25" max="25" step="1" value='0'
+					(input)="changeShadow(true)" (mousedown)="setPrevValue('offsetY', offsetY)" class="slider"
+					(change)="stackToUndo('offsetY')" class="slider">
+			</div>
+		</div>
+	</div>
+</ng-template>

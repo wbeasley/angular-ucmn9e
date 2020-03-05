@@ -1,0 +1,83 @@
+<div loader #loaderComponent></div>
+<common-tabs [subTabsData]="subTabsData" [activeAccordion]="accordianId" *ngIf="!loadContent"></common-tabs>
+<div loader #subtabLoader></div>
+
+<div class="byi-accord-content" *ngIf="loadContent == true">
+   <div class="byi-namenumber-top">
+      <ul>
+         <li>
+            <label class="byi-checkbox">
+               <input id="add_names" type="checkbox" (change)="nameChecked()" [(ngModel)]="nameNumberService.addName">
+               {{'Add Names' | translate}}
+               <span></span>
+            </label>
+            <div class="byi-dropdown">
+               <div class="btn-group" dropdown>
+                  <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                     {{nameNumberService.selectedNameTitle?.imageTitle}}<span class="caret"></span>
+                  </button>
+                  <ul *dropdownMenu class="dropdown-menu" role="menu">
+                     <li role="menuitem" *ngFor="let title of imageSideTitle" (click)="changeNameSideTitle(title)">
+                        <a class="dropdown-item" href="javascript:void(0)">
+                           {{title?.imageTitle}}</a>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </li>
+         <li>
+            <label class="byi-checkbox">
+               <input id="add_numbers" type="checkbox" (change)="numberChecked()"
+                  [(ngModel)]="nameNumberService.addNumber">
+               {{'Add Numbers' | translate}}
+               <span></span>
+            </label>
+            <div class="byi-dropdown">
+               <div class="btn-group" dropdown>
+                  <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                     {{nameNumberService.selectedNumberTitle?.imageTitle}}<span class="caret"></span>
+                  </button>
+                  <ul *dropdownMenu class="dropdown-menu" role="menu">
+                     <li role="menuitem" *ngFor="let title of imageSideTitle" (click)="changeNumberSideTitle(title)">
+                        <a class="dropdown-item" href="javascript:void(0)">
+                           {{title?.imageTitle}}</a>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </li>
+      </ul>
+   </div>
+   <div class="byi-namenumber-wrap" [class.item-available]="nameNumberService.rowArray.length > 0"
+      *ngIf="nameNumberService.addName || nameNumberService.addNumber">
+      <div class="byi-namenumber-list">
+         <div class="byi-namenumber-item" *ngFor="let row of nameNumberService.rowArray; let i = index">
+            <div class="byi-field-name" [class.byi-mob-text]="mainService.isResponsive">
+               <input class="byi-input noDeleteObject" name="nameText" type="text"
+                  [(ngModel)]="nameNumberService.newRow[i].name" [disabled]="!nameNumberService.addName"
+                  (input)="changeText(i, 'name')" (focus)="changeObject(i,'name', $event.target.value)">
+            </div>
+            <div class="byi-field-number" [class.byi-mob-text]="mainService.isResponsive">
+               <input class="byi-input noDeleteObject" name="numberText" type="text"
+                  [(ngModel)]="nameNumberService.newRow[i].number" [disabled]="!nameNumberService.addNumber"
+                  (keypress)="confProductService.keyPress($event)" (input)="changeText(i, 'number')"
+                  (focus)="changeObject(i,'number', $event.target.value)">
+            </div>
+            <button class="byi-add-btn" *ngIf="mainService.isResponsive && ((nameNumberService.newRow[i].name && nameNumberService.newRow[i].name.length > 0)
+             || (nameNumberService.newRow[i].number && nameNumberService.newRow[i].number.length > 0))"
+               (click)="showChild()"></button>
+            <button class="byi-close-btn" (click)="removeRow(i)">
+               <span></span>
+            </button>
+         </div>
+      </div>
+      <button *ngIf="nameNumberService.newRow.length < 25" class="btn-add-more"
+         (click)="addRow(null, null, null, null, true)">
+         <span class="icon icon-plus"></span>
+         <span>{{'Add More' | translate}}</span>
+      </button>
+   </div>
+</div>
+<div class="generate-image-block" *ngIf="loadContent == 'adminNameNumber' && mainService.nameNumber">
+   <button class="generate-image-btn" (click)="generateNameNumberImages()">Generate Image</button>
+</div>

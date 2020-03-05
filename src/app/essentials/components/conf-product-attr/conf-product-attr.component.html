@@ -1,0 +1,101 @@
+<div class="byi-attr-tables" *ngIf="confAttrs">
+  <div class="byi-attr-wrapper">
+
+    <!-- Name Number -->
+    <ng-container *ngIf="confProductService.isNameNumber">
+      <accordion [closeOthers]="true" class="byi-accordion" [isAnimated]="true">
+        <accordion-group class="byi-accord byi-attr-content"
+          *ngFor="let nameNumberData of confProductService.cartData;let i = index">
+          <button class="byi-accordion-title btn btn-link btn-block clearfix" accordion-heading>
+            <span
+              *ngIf="confProductService.nameNumberData.addName && confProductService.nameNumberData.addNumber">{{nameNumberData?.additional_options[0]?.name + "-" + nameNumberData?.additional_options[0]?.number}}</span>
+            <span
+              *ngIf="confProductService.nameNumberData.addName && !confProductService.nameNumberData.addNumber">{{nameNumberData?.additional_options[0]?.name}}</span>
+            <span
+              *ngIf="!confProductService.nameNumberData.addName && confProductService.nameNumberData.addNumber">{{nameNumberData?.additional_options[0]?.number}}</span>
+          </button>
+          <div class="byi-accord-content">
+            <ng-container [ngTemplateOutlet]="confAttributeSelection" [ngTemplateOutletContext]="{i:i}">
+            </ng-container>
+          </div>
+        </accordion-group>
+      </accordion>
+    </ng-container>
+
+    <!-- Not Name Number -->
+    <ng-container *ngIf="!confProductService.isNameNumber">
+      <div class="byi-attr-content" *ngFor="let row of confProductService.totalRows; let i = index;">
+        <button class="byi-attr-delete" *ngIf="confProductService.totalRows.length > 1" (click)="removeRow(i)">
+          <span></span>
+        </button>
+        <ng-container [ngTemplateOutlet]="confAttributeSelection" [ngTemplateOutletContext]="{i:i}">
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <!-- Conf Product Attr Selection -->
+    <ng-template #confAttributeSelection let-i="i">
+      <!-- swatch section -->
+      <div class="byi-swatch-container" *ngIf="hasSwatch">
+        <div class="byi-swatch-item" *ngFor="let confAttrObj of confAttrs; let j = index">
+          <label>{{'Select ' + filterLabel(confAttrObj.label) + ' Value' | translate}}</label>
+          <div class="byi-colors-list">
+            <ul>
+              <ng-container *ngFor="let optionValueObj of confAttrObj.values">
+                <li class="byi-swatch"
+                  [ngClass]="{'active': confProductService.cartData[i].super_attribute[confAttrObj.id] == optionValueObj.value_index, disabled: disableMe(optionValueObj.value_index, i, j)}"
+                  (click)="setSelectedOptions(optionValueObj.value_index, confAttrObj.id, i, j)">
+                  <span *ngIf="optionValueObj.type == 'color'" class="swatch-color"
+                    [style.background]="optionValueObj.value"></span>
+                  <img *ngIf="optionValueObj.type == 'image'" class="swatch-image" [src]="optionValueObj.value">
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Swatch is false -->
+      <div class="byi-attr-row" *ngIf="!hasSwatch">
+        <div class="byi-attr-item" *ngFor="let confAttrObj of confAttrs; let j = index">
+          <label>{{'Select ' + filterLabel(confAttrObj.label) + ' Value' | translate}}</label>
+          <div class="byi-select">
+            <select name="brand" [(ngModel)]="confProductService.cartData[i].super_attribute[confAttrObj.id]"
+              (change)="setSelectedOptions($event.target.value, confAttrObj.id, i, j)"
+              [id]="'dropdown_' + i + '_' + confAttrObj.id">
+              <option *ngFor="let optionValueObj of confAttrObj.values" [value]="optionValueObj.value_index"
+                [disabled]="disableMe(optionValueObj.value_index, i, j)">
+                {{optionValueObj.label | translate}}
+              </option>
+            </select>
+            <span class="caret"></span>
+          </div>
+          <!-- error for specific attribute dropdown -->
+          <span class="text-danger" *ngIf="confProductService.isSubmitted && getCartObj(i, confAttrObj.id) == 'null'">
+            {{'This Attribute is required' | translate}}
+          </span>
+        </div>
+      </div>
+
+      <!-- QTY Container -->
+      <div class="qty-container">
+        <label>{{'Quantity' | translate}}</label>
+        <input class="byi-input size-qty" type="text" [(ngModel)]="confProductService.cartData[i].qty"
+          (keypress)="confProductService.keyPress($event)" (input)="qtyUpdated($event.target.value)"
+          [attr.data-productid]="confProductService.cartData[i].productId">
+
+        <!-- error for qty -->
+        <span class="text-danger" *ngIf="confProductService.isSubmitted && confProductService.cartData[i].qty <= 0">
+          {{'Invalid Qty' | translate}}
+        </span>
+        <button class="btn-add-more"
+          *ngIf="i == confProductService.totalRows.length - 1 && confProductService.displayAddMore && !confProductService.isNameNumber"
+          (click)="addRow()">
+          <span class="icon icon-plus"></span>
+          <span>{{'Add More' | translate}}</span>
+        </button>
+      </div>
+      <!-- End of qty container -->
+    </ng-template>
+  </div>
+</div>

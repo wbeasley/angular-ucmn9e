@@ -1,0 +1,49 @@
+<div class="byi-product-attr" [class.open]="productOptionsOpened" *ngIf="options">
+	<button type="button" class="byi-attr-btn" (click)="toggleOptions()" tooltip="{{'Product Options' | translate}}">
+		<i class="byii-icon">
+			<svg class="icon icon-setting" viewBox="0 0 54 54">
+				<use xlink:href="assets/img/sprite.svg#icon-setting"></use>
+			</svg>
+		</i>
+		<span>{{'Product Options' | translate}}</span>
+	</button>
+	<div class="byip-options">
+		<accordion class="byi-accordion" [closeOthers]="true" [isAnimated]="true">
+			<accordion-group class="byi-accord" [isOpen]="i == 0" *ngFor="let option of options;let i = index"
+				[isOpen]="true">
+				<button class="byi-accord-title" accordion-heading>
+					<span>{{option.label}}</span>
+				</button>
+				<div class="byi-accord-content">
+					<div class="byi-prod-color-list" *ngIf="option.hasSwatch">
+						<ul>
+							<li class="prod-color"
+								[ngClass]="{active: selectedOptions[option.id] == value.value_index,disabled: checkProductOptionsValidation(value,i) }"
+								[title]="value.label" *ngFor="let value of option.values;"
+								(click)="changeProduct(value,option.id,i)">
+								<ng-container *ngIf="value.type == 'image'">
+									<img src="{{value.value}}">
+								</ng-container>
+								<ng-container *ngIf="value.type == 'color'">
+									<span [style.background-color]="value.value"></span>
+								</ng-container>
+							</li>
+						</ul>
+					</div>
+					<div class="byi-prod-color-list" *ngIf="!option.hasSwatch">
+						<ul>
+							<li class="prod-text"
+								[ngClass]="{active: selectedOptions[option.id] == value.value_index ,disabled: checkProductOptionsValidation(value,i)}"
+								[title]="value.label" *ngFor="let value of option.values"
+								(click)="changeProduct(value,option.id,i)">
+								<ng-container *ngIf="value.type == 'text'">
+									<span>{{value.value}}</span>
+								</ng-container>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</accordion-group>
+		</accordion>
+	</div>
+</div>

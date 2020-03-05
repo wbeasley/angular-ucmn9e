@@ -1,0 +1,399 @@
+.byi-header {
+  position: relative;
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  z-index: 11;
+  padding: 0 20px;
+  height: 70px;
+  max-height: 70px;
+  background: $byi-toolbar-bg;
+  box-shadow: 0px 0px 4px 0px rgba($byi-dark, 0.1);
+  .byii-left {
+    float: left;
+  }
+  .byi-brand {
+    padding: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    min-width: 180px;
+    h1 {
+      margin: 0;
+      font-size: 35px;
+      color: $byi-theme;
+    }
+    img {
+      min-height: 50px;
+      max-height: 50px;
+      display: block;
+    }
+  }
+  .byia-right {
+    float: right;
+    margin-top: 20px;
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      li {
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        padding: 0 10px;
+        &:empty {
+          display: none;
+        }
+        &.byi-product-intro {
+          &:after {
+            content: "";
+            height: 22px;
+            width: 1px;
+            background: $byi-border-color;
+            float: left;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+          }
+        }
+      }
+    }
+    .byiu-right-icon {
+      width: 30px;
+      height: 30px;
+      border: none;
+      padding: 3px;
+      cursor: pointer;
+      background-color: transparent;
+      svg {
+        fill: $byi-lighticon;
+        transition: 0.2s ease all;
+        &.loggedIn {
+          fill: $byi-theme;
+        }
+      }
+      &:hover {
+        svg {
+          fill: $byi-theme;
+          transition: 0.2s ease all;
+        }
+      }
+    }
+  }
+}
+
+.byi-products {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+  padding-left: 18px;
+  &:empty {
+    display: none;
+  }
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 32px;
+    width: 1px;
+    margin: auto;
+    background-color: $byi-border-color;
+  }
+  .byi-button {
+    position: relative;
+    border: none;
+    font-size: 14px;
+    color: $byi-text-color;
+    font-weight: 600;
+    max-width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0 25px 0 10px;
+    background-color: transparent;
+    .caret {
+      position: absolute;
+      top: 5px;
+      right: 8px;
+      width: 8px;
+      height: 8px;
+      border: none;
+      border-left: 1px solid $byi-text-color;
+      border-bottom: 1px solid $byi-text-color;
+      transform: rotate(-45deg);
+    }
+  }
+  .byi-products-inner {
+    &.open {
+      .byi-products-wrap {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0px);
+      }
+    }
+  }
+  .byi-products-wrap {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 32px;
+    left: calc(50% - 220px);
+    width: 450px;
+    padding: 18px;
+    z-index: 10;
+    border-radius: 10px;
+    background-color: $byi-accord-bg;
+    border: 1px solid $byi-border-color;
+    transform: translateY(10px);
+    transition: transform 0.35s ease, opacity 0.35s ease, visibility 0.35s ease;
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 100%;
+      border-bottom: 9px solid $byi-accord-bg;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      transform: translateX(-50%);
+    }
+    &:after {
+      z-index: -1;
+      margin-bottom: 1px;
+      border-bottom-color: $byi-border-color;
+    }
+    .byi-product-cat {
+      max-height: 432px;
+      overflow: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      ul {
+        margin: 0 -8px;
+        padding: 0;
+        list-style-type: none;
+        &:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+        li {
+          width: 25%;
+          float: left;
+          padding: 9px;
+          position: relative;
+          a {
+            cursor: pointer;
+            display: block;
+            text-align: center;
+            padding: 5px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: $byi-text-color;
+            background-color: $byi-input-bg;
+            border: 1px solid $byi-border-color;
+            min-height: 90px;
+            transition: ease 0.5s color, ease 0.5s border-color;
+          }
+          span {
+            display: block;
+            height: 55px;
+            position: relative;
+          }
+          img {
+            max-height: 100%;
+            max-width: 100%;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            width: auto;
+            height: auto;
+          }
+          svg {
+            max-height: 100%;
+            max-width: 100%;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+          }
+          label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 5px;
+            margin-bottom: 0;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            pointer-events: none;
+          }
+          &:hover {
+            a {
+              border: 1px solid $byi-theme;
+            }
+          }
+          &.active {
+            a {
+              border-color: $byi-theme;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.byi-output-action {
+  position: absolute;
+  top: 0;
+  left: 128px;
+  right: 0;
+  min-width: 192px;
+  max-width: 250px;
+  margin: 0 auto;
+  display: inline-block;
+  vertical-align: middle;
+  .bta-link {
+    margin: 15px 0 0 0;
+    display: inline-block;
+    vertical-align: middle;
+    list-style-type: none;
+    > li {
+      float: left;
+      position: relative;
+      padding: 5px 10px;
+      &:empty {
+        display: none;
+      }
+      &.bta-link__3d {
+        svg {
+          fill: $byi-light;
+        }
+        &:hover {
+          svg {
+            fill: $byi-light;
+          }
+        }
+      }
+      + li {
+        &:after {
+          content: "";
+          height: 22px;
+          width: 1px;
+          background: $byi-border-color;
+          float: left;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          margin: auto;
+        }
+      }
+    }
+    a {
+      width: 28px;
+      height: 28px;
+      display: block;
+      font-weight: normal;
+      svg {
+        fill: $byi-lighticon;
+        transition: 0.2s ease all;
+      }
+      &:hover {
+        svg {
+          fill: $byi-theme;
+          transition: 0.2s ease all;
+        }
+      }
+    }
+    .dropdown-menu {
+      margin: 0 auto !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 39px;
+      padding: 0;
+      border-top: 0;
+      min-width: inherit;
+      box-shadow: none;
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: $byi-main-bg;
+      border: 1px solid $byi-border-color;
+      li {
+        .dropdown-item {
+          height: auto;
+          width: 100%;
+          padding: 5px;
+          border-radius: 0;
+          &:hover,
+          &:focus {
+            background-color: darken($byi-main-bg, 4.2%);
+          }
+        }
+      }
+    }
+  }
+}
+
+.btc-pro-filter {
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+  .btc-pf-label {
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    font-weight: 700;
+    font-size: 14px;
+    font-weight: 700;
+    color: $byi-dark;
+    margin-bottom: 10px;
+  }
+  .btc-pf-select {
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    margin-bottom: 10px;
+    .byi-dropdown {
+      width: 49%;
+      float: left;
+      margin-right: 1%;
+    }
+    .dropdown-menu {
+      li {
+        cursor: pointer;
+        color: $byi-text-color;
+        font-size: 13px;
+        padding: 5px 10px;
+        background-color: $byi-input-bg;
+        transition: 0.35s ease background-color, 0.35s ease color;
+        &:hover,
+        &.selected {
+          color: $byi-light;
+          background-color: $byi-theme;
+        }
+      }
+    }
+    .btc-pf-search {
+      width: 49%;
+      float: left;
+      margin-left: 1%;
+      &:first-child {
+        margin: 0;
+        width: 100%;
+      }
+    }
+  }
+}
