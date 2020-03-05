@@ -104,7 +104,7 @@ export class MainService {
 		}
 		this.firstTimeLoaded = true;
 		this.setBasicConfiguration();
-		this.canvasService.initZoom();
+		/this.canvasService.initZoom();
 		this.canvasService.initScaleFactor();
 		document.onclick = ((event: any) => {
 			let demoModeClasses = ['productdesigner-mobile-view', 'productdesigner-tab-view'], isDemoModeClassFound: boolean = false;
